@@ -15,10 +15,9 @@ class CSS(object):
 
     def __init__(self):
         """
-        Creates css object.
+        Creates css tool.
         """
 
-        setattr(azcam.db, "css", self)
         azcam.db.tools["css"] = self
 
         return
@@ -47,7 +46,6 @@ class CSS(object):
         azcam.db.tools["parameters"].set_par("imageautoincrementsequencenumber", 0)
 
         azcam.db.tools["exposure"].set_filename(filename)
-
         azcam.db.tools["exposure"].expose1(exposuretime, imagetype, title)
 
         return "OK"
