@@ -6,11 +6,11 @@ This repository contains the *azcam-90prime* azcam environment.  It contains cod
 
 ## Installation
 
-Download the code (usually into the *azcam* root folder such as `c:\azcam`) and install via  poetry.
+Download the code (usually into the *azcam* root folder such as `c:\azcam`) and install.
 
 ```shell
 cd /azcam
 git clone https://github.com/mplesser/azcam-90prime
 cd azcam-90prime
-poetry install
+pip install -e .
 ```
