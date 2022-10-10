@@ -54,7 +54,6 @@ except ValueError:
 azcam.db.systemname = "90prime"
 
 azcam.db.rootfolder = os.path.abspath(os.path.dirname(__file__))
-azcam.db.rootfolder = os.path.normpath(azcam.db.rootfolder).replace("\\", "/")
 
 azcam.db.systemfolder = os.path.dirname(__file__)
 azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
@@ -66,7 +65,6 @@ if datafolder is None:
     azcam.db.datafolder = os.path.join(droot, azcam.db.systemname)
 else:
     azcam.db.datafolder = datafolder
-azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
 
 # ****************************************************************
 # configuration menu
@@ -166,7 +164,6 @@ elif "6k" in option:
     cmdport = 2442
 else:
     raise azcam.AzcamError("bad server configuration")
-parfile = parfile
 
 # ****************************************************************
 # logging
@@ -347,7 +344,8 @@ else:
 # GUIs
 # ****************************************************************
 if 1:
-    import azcam_90prime.start_azcamtool
+    if os.name != "posix":
+        import azcam_90prime.start_azcamtool
 
 # ****************************************************************
 # finish
