@@ -5,15 +5,10 @@ import os
 if os.name == "posix":
     AZCAM_DATAROOT="/home/lesser/data"
     os.environ['AZCAM_DATAROOT']=AZCAM_DATAROOT
-
     print(f'AzCam data root is {AZCAM_DATAROOT}')
+
     print('Activating azcam virtual environment')
-
-    # source ~/azcam/venvs/azcam/bin/activate
-    # ipython --profile azcamserver -i -c "import azcam_90prime.server; from azcam.cli import *"
-
-    command = ". ~/azcam/venvs/azcam/bin/activate & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
-    #command = ". /home/lesser/azcam/venvs/azcam/bin/activate"
+    command = ". /home/lesser/azcam/venvs/azcam/bin/activate ; ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
     os.system(command)
 
 else:
@@ -24,8 +19,8 @@ else:
     os.environ['AZCAM_AZCAMTOOL']=AZCAM_AZCAMTOOL
 
     print(f'AzCam data root is {AZCAM_DATAROOT}')
-    print('Activating azcam virtual environment')
 
+    print('Activating azcam virtual environment')
     command = "\\data\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
     os.system(command)
 
