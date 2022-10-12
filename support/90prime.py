@@ -8,7 +8,7 @@ if os.name == "posix":
     print(f'AzCam data root is {AZCAM_DATAROOT}')
 
     print('Activating azcam virtual environment')
-    command = ". /home/lesser/azcam/venvs/azcam/bin/activate ; ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
+    command = ". /home/lesser/azcam/venvs/azcam/bin/activate ; ipython --profile azcamserver -i -c \"import azcam_90prime.server ; from azcam.cli import *\""
     os.system(command)
 
 else:
