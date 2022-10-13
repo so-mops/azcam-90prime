@@ -29,6 +29,9 @@ dependencies = [
 Documentation = "https://mplesser.github.io/azcam/"
 Repository = "https://github.com/mplesser/azcam-90prime/"
 
+[project.scripts]
+test90p = "azcam_90prime.test90:main"
+
 [build-system]
 requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"

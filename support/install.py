@@ -16,15 +16,17 @@ if os.name == "posix":
         os.system(command)
 
 else:
+
+    AZCAM_ROOT='/azcam'
+    os.environ['AZCAM_ROOT']=AZCAM_ROOT
+
     AZCAM_DATAROOT='/data'
     os.environ['AZCAM_DATAROOT']=AZCAM_DATAROOT
 
     AZCAM_AZCAMTOOL='C:\\azcam\\azcam-tool\\azcam_tool\\builds\\azcamtool.exe'
     os.environ['AZCAM_AZCAMTOOL']=AZCAM_AZCAMTOOL
 
-    print(f'AzCam data root is {AZCAM_DATAROOT}')
-
-    print('Activating azcam virtual environment')
-    command = "\\data\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
-    os.system(command)
+    # print('Activating azcam virtual environment')
+    # command = "\\data\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
+    # os.system(command)
 
