@@ -21,6 +21,6 @@ else:
     print(f'AzCam data root is {AZCAM_DATAROOT}')
 
     print('Activating azcam virtual environment')
-    command = "\\data\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
+    command = "\\azcam\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
     os.system(command)
 

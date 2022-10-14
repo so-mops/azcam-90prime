@@ -8,12 +8,10 @@ if os.name == "posix":
 
     commands = [
         'sudo apt-get install python3-tk',
-        f'. {AZCAM_ROOT}/venvs/azcam/bin/activate',
-        f'pip install -e {AZCAM_ROOT}/azcam-90prime'
+        f'. {AZCAM_ROOT}/venvs/azcam/bin/activate ; pip install -e {AZCAM_ROOT}/azcam-90prime',
     ]
 
     for command in commands:
-        print(command)
         os.system(command)
 
 else:
@@ -21,14 +19,11 @@ else:
     AZCAM_ROOT = "/azcam"
 
     commands = [
-        f'{AZCAM_ROOT}/venvs/azcam/scripts/activate.ps1 & pip install -e {AZCAM_ROOT}/azcam-90prime'
+        f'{AZCAM_ROOT}/venvs/azcam/scripts/activate.bat ',
+        f'& pip install -e {AZCAM_ROOT}/azcam-90prime ',
     ]
 
-    for command in commands:
-        print(command)
-        os.system(command)
-
-
-    # command = "\\data\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
-    # os.system(command)
-
+    command = ''
+    for cmd in commands:
+        command = command + cmd
+    os.system(command)
