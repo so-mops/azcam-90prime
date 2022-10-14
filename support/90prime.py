@@ -18,9 +18,7 @@ else:
     AZCAM_AZCAMTOOL='C:\\azcam\\azcam-tool\\azcam_tool\\builds\\azcamtool.exe'
     os.environ['AZCAM_AZCAMTOOL']=AZCAM_AZCAMTOOL
 
-    print(f'AzCam data root is {AZCAM_DATAROOT}')
-
     print('Activating azcam virtual environment')
-    command = "\\azcam\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server\""
+    command = "\\azcam\\venvs\\azcam\\Scripts\\activate.bat & ipython --profile azcamserver -i -c \"import azcam_90prime.server ; from azcam.cli import *\""
     os.system(command)
 
