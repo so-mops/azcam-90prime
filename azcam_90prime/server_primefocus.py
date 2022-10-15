@@ -69,7 +69,6 @@ else:
 # ****************************************************************
 # configuration menu
 # ****************************************************************
-print("90Prime Startup Menu\n")
 menu_options = {
     "90prime (standard mode)": "normal",
     "90primeOne": "90primeone",
@@ -79,8 +78,10 @@ menu_options = {
     "6k mode": "6k",
 }
 if option == "menu":
+    print("90Prime Startup Menu\n")
     option = azcam.utils.show_menu(menu_options)
 
+print(f"Mode is {option}")
 CSS = 0
 ARCHON = 0
 if "90primeone" in option:
