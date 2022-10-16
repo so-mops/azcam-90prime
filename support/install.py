@@ -1,8 +1,10 @@
-# install script for azcam_90prime
+# install script for azcam_itl
 
 import os
 
-print("Installing azcam in a virtual environment")
+PACKAGE = "azcam-90prime"
+
+print(f"Installing {PACKAGE} in a virtual environment")
 
 # get root for azcam (change to CLI)
 if os.name == "posix":
@@ -28,7 +30,7 @@ if not os.path.exists(ve):
 if os.name == "posix":
     commands = [
         'sudo apt-get install python3-tk',
-        f'. {AZCAM_ROOT}/venvs/azcam/bin/activate ; pip install -e {AZCAM_ROOT}/azcam-90prime',
+        f'. {AZCAM_ROOT}/venvs/azcam/bin/activate ; pip install -e {AZCAM_ROOT}/{PACKAGE}',
     ]
 
     for command in commands:
@@ -37,7 +39,7 @@ if os.name == "posix":
 else:
     commands = [
         f'{AZCAM_ROOT}/venvs/azcam/scripts/activate.bat ',
-        f'& pip install -e {AZCAM_ROOT}/azcam-90prime ',
+        f'& pip install -e {AZCAM_ROOT}/{PACKAGE} ',
     ]
 
     command = ''

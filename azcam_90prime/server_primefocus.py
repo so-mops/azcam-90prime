@@ -33,8 +33,9 @@ from azcam_90prime.instrument_pf_ngserver import PrimeFocusInstrumentUpgrade
 # parse command line arguments
 # ****************************************************************
 try:
-    i = sys.argv.index("-system")
+    i = sys.argv.index("-subsystem")
     option = sys.argv[i + 1]
+    print(option)
 except ValueError:
     option = "menu"
 try:
@@ -344,7 +345,7 @@ else:
 # ****************************************************************
 # GUIs
 # ****************************************************************
-if 1:
+if 0:
     if os.name != "posix":
         import azcam_90prime.start_azcamtool
 

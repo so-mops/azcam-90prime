@@ -14,6 +14,11 @@ from azcam_focus.focus import Focus
 from azcam_observe.observe import Observe
 
 try:
+    i = sys.argv.index("-subsystem")
+    option = sys.argv[i + 1]
+except ValueError:
+    option = "menu"
+try:
     i = sys.argv.index("-datafolder")
     datafolder = sys.argv[i + 1]
 except ValueError:
@@ -23,6 +28,8 @@ try:
     lab = 1
 except ValueError:
     lab = 0
+
+print(f"Mode is {option}")
 
 # ****************************************************************
 # files and folders
