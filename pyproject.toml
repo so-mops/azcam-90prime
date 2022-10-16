@@ -30,7 +30,7 @@ Documentation = "https://mplesser.github.io/azcam/"
 Repository = "https://github.com/mplesser/azcam-90prime/"
 
 [project.scripts]
-primefocus = "azcam_90prime.pf:main"
+pf = "azcam_90prime.pf:main"
 
 [build-system]
 requires = ["flit_core >=3.2,<4"]
