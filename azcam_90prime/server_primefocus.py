@@ -32,12 +32,38 @@ from azcam_90prime.instrument_pf_ngserver import PrimeFocusInstrumentUpgrade
 # ****************************************************************
 # parse command line arguments
 # ****************************************************************
+option = "menu"
 try:
-    i = sys.argv.index("-subsystem")
-    option = sys.argv[i + 1]
-    print(option)
+    i = sys.argv.index("-normal")
+    option = "normal"
 except ValueError:
-    option = "menu"
+    pass
+try:
+    i = sys.argv.index("-90primeone")
+    option = "90primeone"
+except ValueError:
+    pass
+try:
+    i = sys.argv.index("-overscan")
+    option = "overscan"
+except ValueError:
+    pass
+try:
+    i = sys.argv.index("-fast")
+    option = "fast"
+except ValueError:
+    pass
+try:
+    i = sys.argv.index("-css")
+    option = "css"
+except ValueError:
+    pass
+try:
+    i = sys.argv.index("-6k")
+    option = "6k"
+except ValueError:
+    pass
+
 try:
     i = sys.argv.index("-datafolder")
     datafolder = sys.argv[i + 1]
