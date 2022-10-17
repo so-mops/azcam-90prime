@@ -109,6 +109,7 @@ if option == "menu":
     option = azcam.utils.show_menu(menu_options)
 
 print(f"Mode is {option}")
+
 CSS = 0
 ARCHON = 0
 if "90primeone" in option:
