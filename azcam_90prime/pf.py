@@ -23,6 +23,7 @@ def main():
     else:
         print("Usage error: -server or -console required")
         input()
+        return
 
     if os.name == "posix":
         cmds = [
