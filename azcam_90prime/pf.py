@@ -24,12 +24,18 @@ def main():
         print("Usage error: -server or -console required")
         input()
 
-    cmds = [
-        f"wt -w azcam --suppressApplicationTitle=True --title {tabTitle} --tabColor {tabColor}",
-        "cmd /k",
-        "\"/azcam/venvs/azcam/Scripts/activate.bat & python -m azcam_90prime.primefocus\"",
-        f"-- {' '.join(args)}",
-    ]    
+    if os.name == "posix":
+        cmds = [
+            ". ~/azcam/venvs/azcam/bin/activate ; python3 -m azcam_90prime.primefocus",
+            f"{' '.join(args)}",
+        ]    
+    else:
+        cmds = [
+            f"wt -w azcam --suppressApplicationTitle=True --title {tabTitle} --tabColor {tabColor}",
+            "cmd /k",
+            "\"/azcam/venvs/azcam/Scripts/activate.bat & python -m azcam_90prime.primefocus\"",
+            f"{' '.join(args)}",
+        ]    
     command = " ".join(cmds)
     os.system(command)
 

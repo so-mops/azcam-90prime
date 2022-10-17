@@ -23,7 +23,10 @@ if os.name == "posix":
     os.environ['AZCAM_DATAROOT']=AZCAM_DATAROOT
     print(f'AzCam data root is {AZCAM_DATAROOT}')
 
-    command = f". /home/lesser/azcam/venvs/azcam/bin/activate ; ipython --profile azcamserver -i -c \"import azcam_90prime.server ; from azcam.cli import *\" -- {' '.join(args)}"
+    if SERVER:
+        command = f"ipython --profile azcamserver -i -c \"import azcam_90prime.server ; from azcam.cli import *\" -- {' '.join(args)}"
+    elif CONSOLE:
+        command = f"ipython --profile azcamconsole -i -c \"import azcam_90prime.console ; from azcam.cli import *\" -- {' '.join(args)}"
     os.system(command)
 
 else:
