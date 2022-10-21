@@ -1,4 +1,4 @@
-# install script for azcam_itl
+# install script for azcam_90prime
 
 import os
 
