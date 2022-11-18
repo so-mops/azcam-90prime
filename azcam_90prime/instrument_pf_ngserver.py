@@ -152,7 +152,8 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         focus_b = float(focus_b)
         focus_c = float(focus_c)
 
-        self.iserver.command_ifocus_delta(focus_a, focus_b, focus_c)
+        # self.iserver.command_ifocus_delta(focus_a, focus_b, focus_c)
+        self.iserver.command_ifocus(focus_a, focus_b, focus_c, 10)
 
         return
 
