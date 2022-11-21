@@ -174,3 +174,52 @@ detector_bok90prime_6k_2amp = {
         "im2",
     ],
 }
+
+detector_bok90prime_newmosaic = {
+    "name": "bok90prime new mosaic",
+    "description": "90prime new mosaic",
+    "ref_pixel": [4080.0, 4080.0],
+    "format": [4080 * 2, 4, 0, 20, 4080 * 2, 0, 0, 0, 0],
+    "focalplane": [2, 1, 4, 1, "0101"],
+    "roi": [1, 4080 * 2, 1, 4080, 1, 1],
+    "amp_cfg": [0, 1, 0, 1],
+    "ext_position": [
+        [1, 1],
+        [1, 2],
+        [3, 1],
+        [4, 1],
+    ],
+    "jpg_order": [1, 2, 3, 4],
+    "det_number": [1, 1, 2, 2],
+    "amp_position": [
+        [1, 1],
+        [2, 1],
+        [3, 1],
+        [4, 1],
+    ],
+    "amp_pixel_position": [
+        [1, 1],
+        [2040, 1],
+        [4080, 1],
+        [6120, 1],
+    ],
+    "det_position": [
+        [1, 1],
+        [1, 1],
+        [2, 1],
+        [2, 1],
+    ],
+    "det_gap": [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+    ],
+    "ext_name": [
+        "im1",
+        "im2",
+        "im3",
+        "im4",
+    ],
+    "ext_number": [1, 2, 3, 4],
+}

@@ -8,10 +8,10 @@ import azcam
 import azcam.console
 import azcam.shortcuts
 import azcam.tools.console_tools
-import azcam_testers
-from azcam_ds9.ds9display import Ds9Display
-from azcam_focus.focus import Focus
-from azcam_observe.observe import Observe
+import azcam.tools.testers
+from azcam.tools.ds9.ds9display import Ds9Display
+from azcam.tools.focus.focus import Focus
+from azcam.tools.observe.observe import Observe
 
 try:
     i = sys.argv.index("-datafolder")
@@ -64,7 +64,7 @@ create_console_tools()
 # testers
 # ****************************************************************
 # testers
-azcam_testers.load()
+azcam.tools.testers.load()
 
 # ****************************************************************
 # observe script

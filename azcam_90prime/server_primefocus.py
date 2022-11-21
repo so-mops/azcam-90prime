@@ -9,18 +9,18 @@ import azcam.shortcuts
 from azcam.tools.cmdserver import CommandServer
 from azcam.tools.system import System
 
-from azcam_arc.controller_arc import ControllerArc
-from azcam_arc.exposure_arc import ExposureArc
+from azcam.tools.arc.controller_arc import ControllerArc
+from azcam.tools.arc.exposure_arc import ExposureArc
 
-from azcam_archon.controller_archon import ControllerArchon
-from azcam_archon.exposure_archon import ExposureArchon
-from azcam_archon.tempcon_archon import TempConArchon
+from azcam.tools.archon.controller_archon import ControllerArchon
+from azcam.tools.archon.exposure_archon import ExposureArchon
+from azcam.tools.archon.tempcon_archon import TempConArchon
 
-from azcam_cryocon.tempcon_cryocon24 import TempConCryoCon24
-from azcam_ds9.ds9display import Ds9Display
-from azcam_imageserver.sendimage import SendImage
-from azcam_focus.focus import Focus
-from azcam_fastapi.fastapi_server import WebServer
+from azcam.tools.cryocon.tempcon_cryocon24 import TempConCryoCon24
+from azcam.tools.ds9.ds9display import Ds9Display
+from azcam.tools.imageserver.sendimage import SendImage
+from azcam.tools.focus.focus import Focus
+from azcam.tools.fastapi.fastapi_server import WebServer
 
 # from azcam_webtools.status.status import Status
 
@@ -59,21 +59,21 @@ try:
 except ValueError:
     pass
 try:
-    i = sys.argv.index("-6k")
-    option = "6k"
+    i = sys.argv.index("-archon")
+    option = "archon"
 except ValueError:
     pass
-
 try:
     i = sys.argv.index("-datafolder")
     datafolder = sys.argv[i + 1]
 except ValueError:
     datafolder = None
+
 try:
-    i = sys.argv.index("-lab")
-    lab = 1
+    i = sys.argv.index("-remotehost")
+    remote_host = sys.argv[i + 1]
 except ValueError:
-    lab = 0
+    remote_host = None
 
 # ****************************************************************
 # define folders for system
@@ -102,13 +102,13 @@ menu_options = {
     "90prime with overscan rows": "overscan",
     "90prime FAST mode (with overscan rows)": "fast",
     "CSS mode": "css",
-    "6k mode": "6k",
+    "Archon mode": "archon",
 }
 if option == "menu":
     print("90Prime Startup Menu\n")
     option = azcam.utils.show_menu(menu_options)
 
-print(f"Mode is {option}")
+print(f"90prime mode is {option}")
 
 CSS = 0
 ARCHON = 0
@@ -178,18 +178,20 @@ elif "css" in option:
     )
     azcam.db.servermode = "CSS"
     cmdport = 2422
-elif "6k" in option:
-    print("90Prime for 6k CCD")
+elif "archon" in option:
+    print("90Prime for new mosaic with Archon controller")
     ARCHON = 1
-    parfile = os.path.join(azcam.db.datafolder, "parameters", "parameters_server_90prime_6k.ini")
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_6k.txt")
+    parfile = os.path.join(
+        azcam.db.datafolder, "parameters", "parameters_server_90prime_newmosaic.ini"
+    )
+    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_newmosaic.txt")
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
-        "archon_6k",
-        "90prime6k.acf",
+        "archon",
+        "90prime_config0.acf",
     )
-    azcam.db.servermode = "6k"
+    azcam.db.servermode = "archon"
     cmdport = 2442
 else:
     raise azcam.AzcamError("bad server configuration")
@@ -199,7 +201,7 @@ else:
 # ****************************************************************
 logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
 azcam.db.logger.start_logging(logfile=logfile)
-azcam.log("Configuring for 90prime")
+# azcam.log("Configuring for 90prime")
 
 # ****************************************************************
 # controller
@@ -269,9 +271,13 @@ else:
     exposure.update_headers_in_background = 1
     exposure.display_image = 0
     sendimage = SendImage()
-if not lab:
+
+if remote_host is None:
+    pass
+else:
     exposure.send_image = 1
-    sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
+    # sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
+    sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
 # ****************************************************************
 # instrument
@@ -305,11 +311,11 @@ if "90primeone" in option:
     from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
     exposure.set_detpars(detector_bok90prime_one)
-elif "6k" in option:
-    from azcam_90prime.detector_bok90prime import detector_bok90prime_6k_2amp
+elif "archon" in option:
+    from azcam_90prime.detector_bok90prime import detector_bok90prime_newmosaic
 
-    exposure.set_detpars(detector_bok90prime_6k_2amp)
-    exposure.fileconverter.set_detector_config(detector_bok90prime_6k_2amp)
+    exposure.set_detpars(detector_bok90prime_newmosaic)
+    exposure.fileconverter.set_detector_config(detector_bok90prime_newmosaic)
 
 else:
     from azcam_90prime.detector_bok90prime import detector_bok90prime
@@ -331,7 +337,10 @@ if CSS:
 
     css = CSS()
     azcam.db.tools["css"] = css
-    sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+    if remote_host is None:
+        sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+    else:
+        sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
     exposure.folder = "/home/css"
 
 # ****************************************************************
