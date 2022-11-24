@@ -22,7 +22,7 @@ from azcam.tools.imageserver.sendimage import SendImage
 from azcam.tools.focus.focus import Focus
 from azcam.tools.fastapi.fastapi_server import WebServer
 
-# from azcam_webtools.status.status import Status
+# from azcam.tools.webtools.status.status import Status
 
 from azcam_90prime.telescope_bok import BokTCS
 
