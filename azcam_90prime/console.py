@@ -102,6 +102,9 @@ else:
 azcam.db.tools["parameters"].read_parfile(parfile)
 azcam.db.tools["parameters"].update_pars(0, "azcamconsole")
 
+# cli commands
+from azcam.cli import *
+
 # try to change window title
 try:
     ctypes.windll.kernel32.SetConsoleTitleW("azcamconsole")

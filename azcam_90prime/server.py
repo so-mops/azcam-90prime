@@ -385,13 +385,16 @@ if 0:
     if os.name != "posix":
         import azcam_90prime.start_azcamtool
 
-# ****************************************************************
-# finish
-# ****************************************************************
-azcam.log("Configuration complete")
+# cli commands
+from azcam.cli import *
 
 # try to change window title
 try:
     ctypes.windll.kernel32.SetConsoleTitleW("azcamserver")
 except Exception:
     pass
+
+# ****************************************************************
+# finish
+# ****************************************************************
+azcam.log("Configuration complete")
