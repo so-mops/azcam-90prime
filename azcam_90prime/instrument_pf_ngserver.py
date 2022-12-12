@@ -8,8 +8,8 @@ import math
 
 import azcam
 from azcam.tools.instrument import Instrument
-from .Galil_DMC_22x0_NgClient import NgClient
-
+from azcam_90prime.Galil_DMC_22x0_NgClient import NgClient
+from azcam_90prime.Galil_DMC_22x0_Read_Telemetry import TelemetryClient
 
 class PrimeFocusInstrumentUpgrade(Instrument):
     """
@@ -22,12 +22,15 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         super().__init__(tool_id, description)
 
         self.name = "90prime"
-        self.host = "10.30.1.2"
+        #self.host = "10.30.1.2"
+        self.host = "10.30.1.7"
         # self.host = "140.252.86.113"
         self.port = 5750
         self.simulate = False
 
         self.define_keywords()
+
+        self.telemetry_enabled = 1
 
     def initialize(self):
 
@@ -39,6 +42,8 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         self.iserver.connect()
 
         # self.iserver.command_ifilter_init()
+
+        self.telclient = TelemetryClient()
 
         self.initialized = True
 
@@ -152,8 +157,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         focus_b = float(focus_b)
         focus_c = float(focus_c)
 
-        # self.iserver.command_ifocus_delta(focus_a, focus_b, focus_c)
-        self.iserver.command_ifocus(focus_a, focus_b, focus_c, 10)
+        self.iserver.command_ifocus_delta(focus_a, focus_b, focus_c)
 
         return
 
@@ -288,6 +292,44 @@ class PrimeFocusInstrumentUpgrade(Instrument):
                 continue
             list1 = [key, reply[0], reply[1], reply[2]]
             header.append(list1)
+
+        # new for telemetry info
+        if self.telemetry_enabled:
+            self.telclient.get_json()
+
+            dict1 = self.telclient.parse_json(_key="wind")
+            for key in dict1:
+                value = dict1[key]
+                self.header.set_keyword(key[:8],value,key,"float")
+            dict1 = self.telclient.parse_json(_key="dome")
+            for key in dict1:
+                value = dict1[key]
+                self.header.set_keyword(key[:8],value,key,"float")
+            dict1 = self.telclient.parse_json(_key="mirror_cell")
+            for key in dict1:
+                value = dict1[key]
+                self.header.set_keyword(key[:8],value,key,"float")
+            dict1 = self.telclient.parse_json(_key="upper_dome")
+            for key in dict1:
+                value = dict1[key]
+                self.header.set_keyword(key[:8],value,key,"float")
+
+            # dict1 = self.telclient.jdata["weather"]["wind"]["data"]["wind"]
+            # for key in dict1:
+            #     value = dict1[key]
+            #     self.header.set_keyword(key[:8],value,key,"float")
+            # dict1 = self.telclient.jdata["weather"]["dome_outside"]["data"]
+            # for key in dict1:
+            #     value = dict1[key]
+            #     self.header.set_keyword(key[:8],value,key,"float")
+            # dict1 = self.telclient.jdata["weather"]["mirror_cell"]["data"]["mirror_cell"]
+            # for key in dict1:
+            #     value = dict1[key]
+            #     self.header.set_keyword(key[:8],value,key,"float")
+            # dict1 = self.telclient.jdata["weather"]["upper_dome"]["data"]["upper_dome"]
+            # for key in dict1:
+            #     value = dict1[key]
+            #     self.header.set_keyword(key[:8],value,key,"float")
 
         return header
 

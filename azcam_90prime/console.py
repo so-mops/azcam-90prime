@@ -10,9 +10,9 @@ import azcam.console
 import azcam.shortcuts
 import azcam.tools.console_tools
 import azcam.tools.testers
-from azcam.tools.ds9.ds9display import Ds9Display
-from azcam.tools.focus.focus import Focus
-from azcam.tools.observe.observe import Observe
+from azcam.tools.ds9display import Ds9Display
+from azcam.tools.focus import Focus
+from azcam_observe.observe import Observe
 
 try:
     i = sys.argv.index("-datafolder")
@@ -68,13 +68,13 @@ create_console_tools()
 azcam.tools.testers.load()
 
 # ****************************************************************
-# observe script
+# observe
 # ****************************************************************
 observe = Observe()
 observe.move_telescope_during_readout = 1
 
 # ****************************************************************
-# focus script
+# focus tool
 # ****************************************************************
 focus = Focus()
 focus.focus_component = "instrument"

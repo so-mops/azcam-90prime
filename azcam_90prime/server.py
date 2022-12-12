@@ -17,10 +17,10 @@ from azcam.tools.archon.controller_archon import ControllerArchon
 from azcam.tools.archon.exposure_archon import ExposureArchon
 from azcam.tools.archon.tempcon_archon import TempConArchon
 
-from azcam.tools.cryocon.tempcon_cryocon24 import TempConCryoCon24
-from azcam.tools.ds9.ds9display import Ds9Display
-from azcam.tools.imageserver.sendimage import SendImage
-from azcam.tools.focus.focus import Focus
+from azcam.tools.tempcon_cryocon24 import TempConCryoCon24
+from azcam.tools.ds9display import Ds9Display
+from azcam.tools.sendimage import SendImage
+from azcam.tools.focus import Focus
 from azcam.tools.fastapi.fastapi_server import WebServer
 
 # from azcam.tools.webtools.status.status import Status
