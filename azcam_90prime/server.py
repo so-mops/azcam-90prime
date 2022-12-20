@@ -9,21 +9,19 @@ import azcam.server
 import azcam.shortcuts
 from azcam.tools.cmdserver import CommandServer
 from azcam.tools.system import System
-
 from azcam.tools.arc.controller_arc import ControllerArc
 from azcam.tools.arc.exposure_arc import ExposureArc
-
 from azcam.tools.archon.controller_archon import ControllerArchon
 from azcam.tools.archon.exposure_archon import ExposureArchon
 from azcam.tools.archon.tempcon_archon import TempConArchon
-
 from azcam.tools.tempcon_cryocon24 import TempConCryoCon24
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.sendimage import SendImage
 from azcam.tools.focus import Focus
-from azcam.tools.fastapi.fastapi_server import WebServer
 
-# from azcam.tools.webtools.status.status import Status
+from azcam.tools.webserver.fastapi_server import WebServer
+from azcam.tools.webtools.exptool.exptool import Exptool
+from azcam.tools.webtools.status.status import Status
 
 from azcam_90prime.telescope_bok import BokTCS
 
@@ -60,7 +58,7 @@ try:
 except ValueError:
     pass
 try:
-    i = sys.argv.index("-archon")
+    i = sys.argv.index("-newmosaic")
     option = "archon"
 except ValueError:
     pass
@@ -361,14 +359,18 @@ cmdserver.start()
 # ****************************************************************
 # web server
 # ****************************************************************
-if 0:
+if 1:
     webserver = WebServer()
     webserver.logcommands = 0
-    webserver.index = os.path.join(azcam.db.systemfolder, "index_bok.html")
+    webserver.index = os.path.join(azcam.db.systemfolder, "index_90prime.html")
     webserver.port = 2403  # common port for all configurations
     webserver.start()
+
     webstatus = Status()
     webstatus.initialize()
+
+    exptool = Exptool()
+    exptool.initialize()
 
 # ****************************************************************
 # controller server
@@ -381,7 +383,7 @@ else:
 # ****************************************************************
 # GUIs
 # ****************************************************************
-if 0:
+if 1:
     if os.name != "posix":
         import azcam_90prime.start_azcamtool
 
