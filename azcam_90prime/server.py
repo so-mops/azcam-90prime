@@ -59,7 +59,7 @@ except ValueError:
     pass
 try:
     i = sys.argv.index("-newmosaic")
-    option = "archon"
+    option = "newmosaic"
 except ValueError:
     pass
 try:
@@ -101,13 +101,11 @@ menu_options = {
     "90prime with overscan rows": "overscan",
     "90prime FAST mode (with overscan rows)": "fast",
     "CSS mode": "css",
-    "Archon mode": "archon",
+    "New mosaic": "newmosaic",
 }
 if option == "menu":
     print("90Prime Startup Menu\n")
     option = azcam.utils.show_menu(menu_options)
-
-print(f"90prime mode is {option}")
 
 CSS = 0
 ARCHON = 0
@@ -177,7 +175,7 @@ elif "css" in option:
     )
     azcam.db.servermode = "CSS"
     cmdport = 2422
-elif "archon" in option:
+elif "newmosaic" in option:
     ARCHON = 1
     parfile = os.path.join(
         azcam.db.datafolder, "parameters", "parameters_server_90prime_newmosaic.ini"
@@ -189,7 +187,7 @@ elif "archon" in option:
         "archon",
         "90prime_config0.acf",
     )
-    azcam.db.servermode = "archon"
+    azcam.db.servermode = "newmosaic"
     cmdport = 2442
 else:
     raise azcam.AzcamError("bad server configuration")
@@ -199,7 +197,7 @@ else:
 # ****************************************************************
 logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
 azcam.db.logger.start_logging(logfile=logfile)
-# azcam.log("Configuring for 90prime")
+azcam.log(f"90prime mode: {option}")
 
 # ****************************************************************
 # controller
@@ -309,7 +307,7 @@ if "90primeone" in option:
     from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
     exposure.set_detpars(detector_bok90prime_one)
-elif "archon" in option:
+elif "newmosaic" in option:
     from azcam_90prime.detector_bok90prime import detector_bok90prime_newmosaic
 
     exposure.set_detpars(detector_bok90prime_newmosaic)
@@ -383,7 +381,7 @@ else:
 # ****************************************************************
 # GUIs
 # ****************************************************************
-if 1:
+if 0:
     if os.name != "posix":
         import azcam_90prime.start_azcamtool
 
