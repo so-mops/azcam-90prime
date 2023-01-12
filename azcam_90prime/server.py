@@ -58,8 +58,8 @@ try:
 except ValueError:
     pass
 try:
-    i = sys.argv.index("-newmosaic")
-    option = "newmosaic"
+    i = sys.argv.index("-archon")
+    option = "archon"
 except ValueError:
     pass
 try:
@@ -101,7 +101,7 @@ menu_options = {
     "90prime with overscan rows": "overscan",
     "90prime FAST mode (with overscan rows)": "fast",
     "CSS mode": "css",
-    "New mosaic": "newmosaic",
+    "Archon contorller with new mosaic": "archon",
 }
 if option == "menu":
     print("90Prime Startup Menu\n")
@@ -175,19 +175,19 @@ elif "css" in option:
     )
     azcam.db.servermode = "CSS"
     cmdport = 2422
-elif "newmosaic" in option:
+elif "archon" in option:
     ARCHON = 1
     parfile = os.path.join(
-        azcam.db.datafolder, "parameters", "parameters_server_90prime_newmosaic.ini"
+        azcam.db.datafolder, "parameters", "parameters_server_90prime_archon.ini"
     )
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_newmosaic.txt")
+    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_archon.txt")
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
         "archon",
         "90prime_config0.acf",
     )
-    azcam.db.servermode = "newmosaic"
+    azcam.db.servermode = "archon"
     cmdport = 2442
 else:
     raise azcam.AzcamError("bad server configuration")
@@ -307,11 +307,11 @@ if "90primeone" in option:
     from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
     exposure.set_detpars(detector_bok90prime_one)
-elif "newmosaic" in option:
-    from azcam_90prime.detector_bok90prime import detector_bok90prime_newmosaic
+elif "archon" in option:
+    from azcam_90prime.detector_bok90prime import detector_bok90prime_archon
 
-    exposure.set_detpars(detector_bok90prime_newmosaic)
-    exposure.fileconverter.set_detector_config(detector_bok90prime_newmosaic)
+    exposure.set_detpars(detector_bok90prime_archon)
+    exposure.fileconverter.set_detector_config(detector_bok90prime_archon)
 
 else:
     from azcam_90prime.detector_bok90prime import detector_bok90prime

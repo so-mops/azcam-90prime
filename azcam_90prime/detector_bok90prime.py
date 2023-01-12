@@ -175,7 +175,7 @@ detector_bok90prime_6k_2amp = {
     ],
 }
 
-detector_bok90prime_newmosaic = {
+detector_bok90prime_archon = {
     "name": "bok90prime new mosaic",
     "description": "90prime new mosaic",
     "ref_pixel": [4080.0, 4080.0],
