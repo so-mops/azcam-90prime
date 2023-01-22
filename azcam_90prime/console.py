@@ -12,7 +12,6 @@ import azcam.tools.console_tools
 import azcam.tools.testers
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
-from azcam_observe.observe import Observe
 
 try:
     i = sys.argv.index("-datafolder")
@@ -70,7 +69,10 @@ azcam.tools.testers.load()
 # ****************************************************************
 # observe
 # ****************************************************************
-observe = Observe()
+azcam.log("Loading observe")
+from azcam_observe.observe_cli.observe_cli import ObserveCli
+
+observe = ObserveCli()
 observe.move_telescope_during_readout = 1
 
 # ****************************************************************
