@@ -7,8 +7,8 @@ import ctypes
 import azcam
 import azcam.server
 import azcam.shortcuts
-from azcam.tools.cmdserver import CommandServer
-from azcam.tools.system import System
+from azcam.cmdserver import CommandServer
+from azcam.system import System
 from azcam.tools.arc.controller_arc import ControllerArc
 from azcam.tools.arc.exposure_arc import ExposureArc
 from azcam.tools.archon.controller_archon import ControllerArchon
@@ -342,8 +342,8 @@ if CSS:
 # ****************************************************************
 # parameter file
 # ****************************************************************
-azcam.db.tools["parameters"].read_parfile(parfile)
-azcam.db.tools["parameters"].update_pars(0, "azcamserver")
+azcam.db.parameters.read_parfile(parfile)
+azcam.db.parameters.update_pars(0, "azcamserver")
 
 # ****************************************************************
 # command server
