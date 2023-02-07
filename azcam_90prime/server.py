@@ -186,7 +186,6 @@ elif "archon" in option:
         azcam.db.datafolder,
         "dspcode",
         "archon",
-        "90prime_config0.acf",
         "90prime_newmosaic_8.acf",
     )
     azcam.db.servermode = "archon"
@@ -209,7 +208,7 @@ if ARCHON:
     controller.timing_file = timingfile
     controller.camserver.port = 4242
     controller.camserver.host = "10.30.3.6"  # archon at Bok
-    controller.reset_flag = 0  # 0 for soft reset, 1 to upload code
+    controller.reset_flag = 1  # 0 for soft reset, 1 to upload code
     controller.verbosity = 2
 
 else:
