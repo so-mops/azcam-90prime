@@ -175,12 +175,15 @@ detector_bok90prime_6k_2amp = {
     ],
 }
 
+gapX_new = 2.959/.015  # gaps between amplifiers and CCDs (in pixels)
+gapY_new = 1.820/.015
+
 detector_bok90prime_archon = {
-    "name": "bok90prime new mosaic",
+    "name": "90prime2",
     "description": "90prime new mosaic",
     "ref_pixel": [4080.0, 4080.0],
     "format": [4080 * 2, 4, 0, 20, 4080 * 2, 0, 0, 0, 0],
-    "focalplane": [2, 2, 4, 2, [0, 0, 0, 0, 0, 0, 0, 0]],
+    "focalplane": [2, 2, 4, 2, [0, 1, 0, 1, 0, 1, 0, 1]],
     "roi": [1, 4080 * 2, 1, 4080 * 2, 1, 1],
     "jpg_order": [1, 2, 3, 4, 5, 6, 7, 8],
     "det_number": [1, 1, 2, 2, 3, 3, 4, 4],
@@ -197,12 +200,12 @@ detector_bok90prime_archon = {
     "det_gap": [
         [0, 0],
         [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
-        [0, 0],
+        [gapX_new, 0],
+        [gapX_new, 0],
+        [0, gapY_new],
+        [0, gapY_new],
+        [gapX_new, gapY_new],
+        [gapX, gapY_new],
     ],
     # should change both location
     "det_position": [

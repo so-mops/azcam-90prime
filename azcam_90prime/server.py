@@ -72,7 +72,8 @@ try:
     i = sys.argv.index("-remotehost")
     remote_host = sys.argv[i + 1]
 except ValueError:
-    remote_host = None
+    #remote_host = None
+    remote_host = "10.30.1.7"
 
 # ****************************************************************
 # define folders for system
@@ -186,7 +187,7 @@ elif "archon" in option:
         "dspcode",
         "archon",
         "90prime_config0.acf",
-        "90prime_newmosaic_6.acf",
+        "90prime_newmosaic_8.acf",
     )
     azcam.db.servermode = "archon"
     cmdport = 2442
@@ -210,6 +211,7 @@ if ARCHON:
     controller.camserver.host = "10.30.3.6"  # archon at Bok
     controller.reset_flag = 0  # 0 for soft reset, 1 to upload code
     controller.verbosity = 2
+
 else:
     controller = ControllerArc()
     controller.timing_board = "arc22"
@@ -261,6 +263,10 @@ if ARCHON:
     exposure.display_image = 0
     sendimage = SendImage()
     exposure.add_extensions = 1
+
+    exposure.image.focalplane.gains=8*[2.8]
+    exposure.image.focalplane.rdnoises=8*[5.0]
+
 else:
     exposure = ExposureArc()
     exposure.filetype = exposure.filetypes["MEF"]
@@ -279,8 +285,9 @@ else:
 # ****************************************************************
 # instrument
 # ****************************************************************
-instrument = PrimeFocusInstrument()
-# instrument = PrimeFocusInstrumentUpgrade()
+#instrument = PrimeFocusInstrument()
+instrument = PrimeFocusInstrumentUpgrade()
+instrument.initialize()
 
 # ****************************************************************
 # telescope
@@ -299,7 +306,8 @@ focus.initialize()
 # system header template
 # ****************************************************************
 system = System("90prime", template)
-system.set_keyword("DEWAR", "90prime", "Dewar name")
+system.set_keyword("DETNAME", "90prime2", "Detector name")
+system.set_keyword("DEWAR", "90prime2", "Dewar name")
 
 # ****************************************************************
 # detector
@@ -339,6 +347,10 @@ if CSS:
     else:
         sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
     exposure.folder = "/home/css"
+
+sc = -0.000125
+exposure.image.focalplane.wcs.scale1 = 8*[sc]
+exposure.image.focalplane.wcs.scale2 = 8*[sc]
 
 # ****************************************************************
 # parameter file
@@ -382,7 +394,7 @@ else:
 # ****************************************************************
 # GUIs
 # ****************************************************************
-if 0:
+if 1:
     if os.name != "posix":
         import azcam_90prime.start_azcamtool
 
