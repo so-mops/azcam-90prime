@@ -263,7 +263,16 @@ if ARCHON:
     sendimage = SendImage()
     exposure.add_extensions = 1
 
-    exposure.image.focalplane.gains=8*[2.8]
+    exposure.image.focalplane.gains=[
+        2.94,
+        2.89,
+        2.93,
+        2.86,
+        2.93,
+        2.92,
+        2.86,
+        2.86
+        ]
     exposure.image.focalplane.rdnoises=8*[5.0]
 
 else:
