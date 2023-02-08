@@ -356,9 +356,10 @@ if CSS:
         sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
     exposure.folder = "/home/css"
 
-sc = -0.000125
-exposure.image.focalplane.wcs.scale1 = 8*[sc]
+sc = 0.000125
+exposure.image.focalplane.wcs.scale1 = 8*[-1*sc]
 exposure.image.focalplane.wcs.scale2 = 8*[sc]
+exposure.image.focalplane.wcs.rot_deg = 8*[90.0]
 
 # ****************************************************************
 # parameter file

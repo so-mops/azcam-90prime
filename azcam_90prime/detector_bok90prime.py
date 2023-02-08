@@ -205,7 +205,7 @@ detector_bok90prime_archon = {
         [0, gapY_new],
         [0, gapY_new],
         [gapX_new, gapY_new],
-        [gapX, gapY_new],
+        [gapX_new, gapY_new],
     ],
     # should change both location
     "det_position": [
