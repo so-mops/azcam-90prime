@@ -9,12 +9,6 @@ import azcam.server
 import azcam.shortcuts
 from azcam.cmdserver import CommandServer
 from azcam.system import System
-from azcam.tools.arc.controller_arc import ControllerArc
-from azcam.tools.arc.exposure_arc import ExposureArc
-from azcam.tools.archon.controller_archon import ControllerArchon
-from azcam.tools.archon.exposure_archon import ExposureArchon
-from azcam.tools.archon.tempcon_archon import TempConArchon
-from azcam.tools.tempcon_cryocon24 import TempConCryoCon24
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.sendimage import SendImage
 from azcam.tools.focus import Focus
@@ -204,6 +198,8 @@ azcam.log(f"90prime mode: {option}")
 # controller
 # ****************************************************************
 if ARCHON:
+    from azcam.tools.archon.controller_archon import ControllerArchon
+    from azcam.tools.archon.exposure_archon import ExposureArchon
     controller = ControllerArchon()
     controller.timing_file = timingfile
     controller.camserver.port = 4242
@@ -212,6 +208,8 @@ if ARCHON:
     controller.verbosity = 2
 
 else:
+    from azcam.tools.arc.controller_arc import ControllerArc
+    from azcam.tools.arc.exposure_arc import ExposureArc
     controller = ControllerArc()
     controller.timing_board = "arc22"
     controller.clock_boards = ["arc32"]
@@ -229,6 +227,7 @@ else:
 # temperature controller
 # ****************************************************************
 if ARCHON:
+    from azcam.tools.archon.tempcon_archon import TempConArchon
     tempcon = TempConArchon(description="90prime Archon")
     tempcon.temperature_ids = [0, 2]  # camtemp, dewtemp
     tempcon.heaterx_board = "MOD1"
@@ -236,6 +235,7 @@ if ARCHON:
     controller.heater_board_installed = 1
 
 else:
+    from azcam.tools.tempcon_cryocon24 import TempConCryoCon24
     tempcon = TempConCryoCon24(description="90prime CryoCon")
     tempcon.control_temperature = -135.0
     # tempcon.host = "10.0.0.45"
@@ -273,7 +273,16 @@ if ARCHON:
         2.86,
         2.86
         ]
-    exposure.image.focalplane.rdnoises=8*[5.0]
+    exposure.image.focalplane.rdnoises=[
+        5.6,
+        5.0,
+        8.4,
+        5.1,
+        5.0,
+        13.3,
+        4.8,
+        5.8
+        ]
 
 else:
     exposure = ExposureArc()
