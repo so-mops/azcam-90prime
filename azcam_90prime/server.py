@@ -180,7 +180,7 @@ elif "archon" in option:
         azcam.db.datafolder,
         "dspcode",
         "archon",
-        "90prime_newmosaic_8.acf",
+        "90prime_newmosaic_10.acf",
     )
     azcam.db.servermode = "archon"
     cmdport = 2442
