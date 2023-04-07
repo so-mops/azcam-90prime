@@ -304,6 +304,8 @@ else:
 # ****************************************************************
 #instrument = PrimeFocusInstrument()
 instrument = PrimeFocusInstrumentUpgrade()
+if remote_host is not None:
+    instrument.host = remote_host
 instrument.initialize()
 
 # ****************************************************************
