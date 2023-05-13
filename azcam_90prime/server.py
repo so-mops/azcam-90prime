@@ -5,10 +5,10 @@ import sys
 import ctypes
 
 import azcam
-import azcam.server
-import azcam.shortcuts
-from azcam.cmdserver import CommandServer
-from azcam.system import System
+import azcam_server.server
+import azcam_server.shortcuts
+from azcam_server.cmdserver import CommandServer
+from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.sendimage import SendImage
 from azcam.tools.focus import Focus
@@ -66,7 +66,7 @@ try:
     i = sys.argv.index("-remotehost")
     remote_host = sys.argv[i + 1]
 except ValueError:
-    #remote_host = None
+    # remote_host = None
     remote_host = "10.30.1.7"
 
 # ****************************************************************
@@ -198,8 +198,9 @@ azcam.log(f"90prime mode: {option}")
 # controller
 # ****************************************************************
 if ARCHON:
-    from azcam.tools.archon.controller_archon import ControllerArchon
-    from azcam.tools.archon.exposure_archon import ExposureArchon
+    from azcam_server.tools.archon.controller_archon import ControllerArchon
+    from azcam_server.tools.archon.exposure_archon import ExposureArchon
+
     controller = ControllerArchon()
     controller.timing_file = timingfile
     controller.camserver.port = 4242
@@ -208,8 +209,9 @@ if ARCHON:
     controller.verbosity = 2
 
 else:
-    from azcam.tools.arc.controller_arc import ControllerArc
-    from azcam.tools.arc.exposure_arc import ExposureArc
+    from azcam_server.tools.arc.controller_arc import ControllerArc
+    from azcam_server.tools.arc.exposure_arc import ExposureArc
+
     controller = ControllerArc()
     controller.timing_board = "arc22"
     controller.clock_boards = ["arc32"]
@@ -227,7 +229,8 @@ else:
 # temperature controller
 # ****************************************************************
 if ARCHON:
-    from azcam.tools.archon.tempcon_archon import TempConArchon
+    from azcam_server.tools.archon.tempcon_archon import TempConArchon
+
     tempcon = TempConArchon(description="90prime Archon")
     tempcon.temperature_ids = [0, 2]  # camtemp, dewtemp
     tempcon.heaterx_board = "MOD1"
@@ -235,7 +238,8 @@ if ARCHON:
     controller.heater_board_installed = 1
 
 else:
-    from azcam.tools.tempcon_cryocon24 import TempConCryoCon24
+    from azcam_server.tools.tempcon_cryocon24 import TempConCryoCon24
+
     tempcon = TempConCryoCon24(description="90prime CryoCon")
     tempcon.control_temperature = -135.0
     # tempcon.host = "10.0.0.45"
@@ -263,26 +267,8 @@ if ARCHON:
     sendimage = SendImage()
     exposure.add_extensions = 1
 
-    exposure.image.focalplane.gains=[
-        2.94,
-        2.89,
-        2.93,
-        2.86,
-        2.93,
-        2.92,
-        2.86,
-        2.86
-        ]
-    exposure.image.focalplane.rdnoises=[
-        5.6,
-        5.0,
-        8.4,
-        5.1,
-        5.0,
-        13.3,
-        4.8,
-        5.8
-        ]
+    exposure.image.focalplane.gains = [2.94, 2.89, 2.93, 2.86, 2.93, 2.92, 2.86, 2.86]
+    exposure.image.focalplane.rdnoises = [5.6, 5.0, 8.4, 5.1, 5.0, 13.3, 4.8, 5.8]
 
 else:
     exposure = ExposureArc()
@@ -302,7 +288,7 @@ else:
 # ****************************************************************
 # instrument
 # ****************************************************************
-#instrument = PrimeFocusInstrument()
+# instrument = PrimeFocusInstrument()
 instrument = PrimeFocusInstrumentUpgrade()
 if remote_host is not None:
     instrument.host = remote_host
@@ -368,9 +354,9 @@ if CSS:
     exposure.folder = "/home/css"
 
 sc = 0.000125
-exposure.image.focalplane.wcs.scale1 = 8*[-1*sc]
-exposure.image.focalplane.wcs.scale2 = 8*[-1*sc]
-exposure.image.focalplane.wcs.rot_deg = 8*[90.0]
+exposure.image.focalplane.wcs.scale1 = 8 * [-1 * sc]
+exposure.image.focalplane.wcs.scale2 = 8 * [-1 * sc]
+exposure.image.focalplane.wcs.rot_deg = 8 * [90.0]
 
 # ****************************************************************
 # parameter file
@@ -419,7 +405,7 @@ if 1:
         import azcam_90prime.start_azcamtool
 
 # cli commands
-from azcam.cli import *
+from azcam_server.cli import *
 
 # try to change window title
 try:

@@ -6,10 +6,10 @@ import threading
 import ctypes
 
 import azcam
-import azcam.console
-import azcam.shortcuts
-import azcam.tools.console_tools
-import azcam.tools.testers
+import azcam_console.console
+import azcam_console.shortcuts
+import azcam_console.tools.console_tools
+import azcam_console.tools.testers
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
 
@@ -56,7 +56,7 @@ dthread.start()  # thread just for speed
 # ****************************************************************
 # console tools
 # ****************************************************************
-from azcam.tools import create_console_tools
+from azcam_console.tools import create_console_tools
 
 create_console_tools()
 
@@ -64,7 +64,7 @@ create_console_tools()
 # testers
 # ****************************************************************
 # testers
-azcam.tools.testers.load()
+azcam_console.tools.testers.load()
 
 # ****************************************************************
 # observe
@@ -105,7 +105,7 @@ azcam.db.parameters.read_parfile(parfile)
 azcam.db.parameters.update_pars(0, "azcamconsole")
 
 # cli commands
-from azcam.cli import *
+from azcam_console.cli import *
 
 # try to change window title
 try:
