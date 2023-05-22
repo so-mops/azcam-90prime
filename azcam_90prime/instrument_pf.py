@@ -9,7 +9,7 @@ import socket
 import time
 
 import azcam
-from azcam.tools.instrument import Instrument
+from azcam_server.tools.instrument import Instrument
 
 
 class PrimeFocusInstrument(Instrument):
@@ -19,7 +19,6 @@ class PrimeFocusInstrument(Instrument):
     """
 
     def __init__(self, tool_id="instrument", description="primefocus"):
-
         super().__init__(tool_id, description)
 
         self.Name = "90prime"
@@ -42,7 +41,6 @@ class PrimeFocusInstrument(Instrument):
         self.define_keywords()
 
     def initialize(self):
-
         if not self.enabled:
             azcam.AzcamWarning(f"{self.name} is not enabled")
             return
@@ -61,7 +59,6 @@ class PrimeFocusInstrument(Instrument):
         """
 
         for loop in range(number_cycles):
-
             if number_cycles > 1:
                 azcam.log(("   *** Test cycle: %d" % loop))
 
@@ -262,7 +259,6 @@ class PrimeFocusInstrument(Instrument):
         scale = [-0.0005, -0.0005, -0.0005]  # LVDT to steps scale for A,B,C
 
         for i in range(loops):
-
             # get current values
             reply = self.get_focus_all()
             time.sleep(0.1)
@@ -518,7 +514,6 @@ class InstrumentServerInterface(object):
     """
 
     def __init__(self, Host, Port, Name):
-
         self.host = Host
         self.Port = Port
         self.Name = Name

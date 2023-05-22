@@ -10,8 +10,8 @@ import azcam_console.console
 import azcam_console.shortcuts
 import azcam_console.tools.console_tools
 import azcam_console.tools.testers
-from azcam.tools.ds9display import Ds9Display
-from azcam.tools.focus import Focus
+from azcam_console.tools.ds9display import Ds9Display
+from azcam_console.tools.focus import Focus
 
 try:
     i = sys.argv.index("-datafolder")

@@ -7,9 +7,10 @@ import time
 import math
 
 import azcam
-from azcam.tools.instrument import Instrument
+from azcam_server.tools.instrument import Instrument
 from azcam_90prime.Galil_DMC_22x0_NgClient import NgClient
 from azcam_90prime.Galil_DMC_22x0_Read_Telemetry import TelemetryClient
+
 
 class PrimeFocusInstrumentUpgrade(Instrument):
     """
@@ -18,11 +19,10 @@ class PrimeFocusInstrumentUpgrade(Instrument):
     """
 
     def __init__(self, tool_id="instrument", description="primefocus_ngserver"):
-
         super().__init__(tool_id, description)
 
         self.name = "90prime"
-        #self.host = "10.30.1.2"
+        # self.host = "10.30.1.2"
         self.host = "10.30.1.7"
         # self.host = "140.252.86.113"
         self.port = 5750
@@ -33,7 +33,6 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         self.telemetry_enabled = 1
 
     def initialize(self):
-
         if not self.enabled:
             azcam.AzcamWarning(f"{self.name} is not enabled")
             return
@@ -128,7 +127,6 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         return fpos
 
     def get_mean_focus(self):
-
         reply = self.iserver.request_ifocus()
 
         return self.iserver.ifocus_mean
@@ -300,19 +298,19 @@ class PrimeFocusInstrumentUpgrade(Instrument):
             dict1 = self.telclient.parse_json(_key="wind")
             for key in dict1:
                 value = dict1[key]
-                self.header.set_keyword(key[:8],value,key,"float")
+                self.header.set_keyword(key[:8], value, key, "float")
             dict1 = self.telclient.parse_json(_key="dome")
             for key in dict1:
                 value = dict1[key]
-                self.header.set_keyword(key[:8],value,key,"float")
+                self.header.set_keyword(key[:8], value, key, "float")
             dict1 = self.telclient.parse_json(_key="mirror_cell")
             for key in dict1:
                 value = dict1[key]
-                self.header.set_keyword(key[:8],value,key,"float")
+                self.header.set_keyword(key[:8], value, key, "float")
             dict1 = self.telclient.parse_json(_key="upper_dome")
             for key in dict1:
                 value = dict1[key]
-                self.header.set_keyword(key[:8],value,key,"float")
+                self.header.set_keyword(key[:8], value, key, "float")
 
             # dict1 = self.telclient.jdata["weather"]["wind"]["data"]["wind"]
             # for key in dict1:

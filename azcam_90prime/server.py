@@ -9,13 +9,13 @@ import azcam_server.server
 import azcam_server.shortcuts
 from azcam_server.cmdserver import CommandServer
 from azcam.header import System
-from azcam.tools.ds9display import Ds9Display
-from azcam.tools.sendimage import SendImage
-from azcam.tools.focus import Focus
+from azcam_server.tools.ds9display import Ds9Display
+from azcam_server.tools.sendimage import SendImage
+from azcam_server.tools.focus import Focus
 
-from azcam.tools.webserver.fastapi_server import WebServer
-from azcam.tools.webtools.exptool.exptool import Exptool
-from azcam.tools.webtools.status.status import Status
+from azcam_server.tools.webserver.fastapi_server import WebServer
+from azcam_server.tools.webtools.exptool.exptool import Exptool
+from azcam_server.tools.webtools.status.status import Status
 
 from azcam_90prime.telescope_bok import BokTCS
 
