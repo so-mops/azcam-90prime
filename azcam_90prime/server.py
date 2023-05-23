@@ -405,7 +405,7 @@ if 1:
         import azcam_90prime.start_azcamtool
 
 # cli commands
-from azcam_server.cli import *
+from azcam.cli import *
 
 # try to change window title
 try:
