@@ -362,7 +362,7 @@ exposure.image.focalplane.wcs.rot_deg = 8 * [90.0]
 # parameter file
 # ****************************************************************
 azcam.db.parameters.read_parfile(parfile)
-azcam.db.parameters.update_pars(0, "azcamserver")
+azcam.db.parameters.update_pars("azcamserver")
 
 # ****************************************************************
 # command server
