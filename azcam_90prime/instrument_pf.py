@@ -78,7 +78,6 @@ class PrimeFocusInstrument(Instrument):
             azcam.log(("Focus is %s" % reply))
 
             azcam.log("Finished testing 90prime Galil interface. OK")
-            azcam.utils.prompt("Press Enter to continue...")
 
         return
 
