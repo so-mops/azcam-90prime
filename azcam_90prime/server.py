@@ -66,8 +66,8 @@ try:
     i = sys.argv.index("-remotehost")
     remote_host = sys.argv[i + 1]
 except ValueError:
-    # remote_host = None
-    remote_host = "10.30.1.7"
+    remote_host = None
+    # remote_host = "10.30.1.7"
 
 # ****************************************************************
 # define folders for system
@@ -205,7 +205,7 @@ if ARCHON:
     controller.timing_file = timingfile
     controller.camserver.port = 4242
     controller.camserver.host = "10.30.3.6"  # archon at Bok
-    controller.reset_flag = 1  # 0 for soft reset, 1 to upload code
+    controller.reset_flag = 0  # 0 for soft reset, 1 to upload code
     controller.verbosity = 2
 
 else:
@@ -292,7 +292,8 @@ else:
 instrument = PrimeFocusInstrumentUpgrade()
 if remote_host is not None:
     instrument.host = remote_host
-instrument.initialize()
+if 0:
+    instrument.initialize()
 
 # ****************************************************************
 # telescope

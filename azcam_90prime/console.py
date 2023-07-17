@@ -11,7 +11,7 @@ import azcam_console.shortcuts
 import azcam_console.tools.console_tools
 import azcam_console.tools.testers
 from azcam_console.tools.ds9display import Ds9Display
-from azcam_console.tools.focus import Focus
+from azcam_console.tools.focus import FocusConsole
 
 try:
     i = sys.argv.index("-datafolder")
@@ -78,7 +78,7 @@ observe.move_telescope_during_readout = 1
 # ****************************************************************
 # focus tool
 # ****************************************************************
-focus = Focus()
+focus = FocusConsole()
 focus.focus_component = "instrument"
 focus.focus_type = "step"
 
