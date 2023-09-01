@@ -7,7 +7,7 @@ detector_bok90prime = {
     "description": "90prime mosaic",
     "ref_pixel": [4091.04, 4277.99],
     "format": [4032 * 2, 6, 0, 20, 4096 * 2, 0, 0, 0, 0],
-    "focalplane": [2, 2, 4, 4, [3,2,1,0,3,2,1,0,0,1,2,3,0,1,2,3],
+    "focalplane": [2, 2, 4, 4, [3, 2, 1, 0, 3, 2, 1, 0, 0, 1, 2, 3, 0, 1, 2, 3]],
     "roi": [1, 4032 * 2, 1, 4096 * 2, 1, 1],
     "ext_position": [
         [2, 2],
@@ -91,14 +91,14 @@ detector_bok90prime_one = {
     "description": "90prime mosaic in single chip mode",
     "ref_pixel": [2016.0, 2048.0],
     "format": [4032, 6, 0, 20, 4096, 0, 0, 0, 0],
-    "focalplane": [1, 1, 2, 2, [0,1,2,3],
+    "focalplane": [1, 1, 2, 2, [0, 1, 2, 3]],
     "roi": [1, 4032, 1, 4096, 1, 1],
     "ext_position": [[1, 1], [2, 1], [1, 2], [2, 2]],
     "jpg_order": [1, 2, 3, 4],
 }
 
-gapX_new = 2.959/.015  # gaps between amplifiers and CCDs (in pixels)
-gapY_new = 1.820/.015
+gapX_new = 2.959 / 0.015  # gaps between amplifiers and CCDs (in pixels)
+gapY_new = 1.820 / 0.015
 
 detector_bok90prime_archon = {
     "name": "90prime2",

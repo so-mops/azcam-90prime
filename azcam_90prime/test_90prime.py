@@ -4,11 +4,10 @@ test entire 90prime system
 
 import sys
 
-from azcam.console import azcam
+from azcam_console import azcam
 
 
 def test_90prime():
-
     # **************************************************************
     # reset controller
     # **************************************************************

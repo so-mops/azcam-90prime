@@ -1,16 +1,12 @@
 [project]
 name = "azcam-90prime"
-version = "22.3.1"
+version = "22.4"
 description = "Azcam extension for Bok telescope 90prime facility camera"
-license = {file ="LICENSE"}
+license = { file = "LICENSE" }
 readme = "README.md"
-keywords=["ccd", "imaging", "astronomy", "sensors"]
-authors = [{name="Michael Lesser"},{email = "mlesser@arizona.edu"}]
-dependencies = [
-    "ipython",
-    "rich",
-    "azcam",
-]
+keywords = ["ccd", "imaging", "astronomy", "sensors"]
+authors = [{ name = "Michael Lesser" }, { email = "mlesser@arizona.edu" }]
+dependencies = ["ipython==8.10", "rich", "azcam"]
 
 [project.urls]
 Documentation = "https://mplesser.github.io/azcam/"

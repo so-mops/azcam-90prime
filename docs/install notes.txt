@@ -3,17 +3,25 @@
 
 # Install python
 - Download and install vscode with GIT (notpad as editor)
-- install python to c:\python3x (e.g. c:\python39)
+- install python to c:\python3x (e.g. c:\python311)
 
 # Install azcam
 - create and cd to c:\azcam
+- git clone https://github.com/mplesser/azcam
+- git clone https://github.com/mplesser/azcam-server
+- git clone https://github.com/mplesser/azcam-console
 - git clone https://github.com/mplesser/azcam-90prime
+- git clone https://github.com/mplesser/azcam-observe
 - git clone https://github.com/mplesser/azcam-tool
 - git clone https://github.com/mplesser/azcam-ds9-winsupport
 
 - [copy or] git clone https://github.com/mplesser/motoroladsptools
 
-- pip install -r .\azcam-90prime\requirements_github.txt --src .
+- pip install -e .\azcam
+- pip install -e .\azcam-server
+- pip install -e .\azcam-console
+- pip install -e .\azcam-observe
+- pip install -e .\azcam-90prime
 
 - install Labview 2014 runtime for azcam-tool
 - install SAO ds9
