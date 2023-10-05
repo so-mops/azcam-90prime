@@ -9,9 +9,9 @@ import azcam
 import azcam_console.console
 import azcam_console.shortcuts
 import azcam_console.tools.console_tools
-import azcam_console.tools.testers
 from azcam_console.tools.ds9display import Ds9Display
 from azcam_console.tools.focus import FocusConsole
+from azcam_testers import load_testers
 
 try:
     i = sys.argv.index("-datafolder")
@@ -63,8 +63,7 @@ create_console_tools()
 # ****************************************************************
 # testers
 # ****************************************************************
-# testers
-azcam_console.tools.testers.load()
+load_testers()
 
 # ****************************************************************
 # observe
