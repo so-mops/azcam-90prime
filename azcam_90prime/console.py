@@ -11,7 +11,6 @@ import azcam_console.shortcuts
 import azcam_console.tools.console_tools
 from azcam_console.tools.ds9display import Ds9Display
 from azcam_console.tools.focus import FocusConsole
-from azcam_testers import load_testers
 
 try:
     i = sys.argv.index("-datafolder")
@@ -59,11 +58,6 @@ dthread.start()  # thread just for speed
 from azcam_console.tools import create_console_tools
 
 create_console_tools()
-
-# ****************************************************************
-# testers
-# ****************************************************************
-load_testers()
 
 # ****************************************************************
 # observe
