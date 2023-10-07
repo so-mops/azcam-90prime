@@ -6,7 +6,7 @@ license = { file = "LICENSE" }
 readme = "README.md"
 keywords = ["ccd", "imaging", "astronomy", "sensors"]
 authors = [{ name = "Michael Lesser" }, { email = "mlesser@arizona.edu" }]
-dependencies = ["ipython==8.10", "rich", "azcam"]
+dependencies = ["ipython", "rich", "azcam"]
 
 [project.urls]
 Documentation = "https://azcam.readthedocs.io/"
