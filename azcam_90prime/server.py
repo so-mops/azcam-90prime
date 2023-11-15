@@ -13,9 +13,9 @@ from azcam_server.tools.ds9display import Ds9Display
 from azcam_server.tools.sendimage import SendImage
 from azcam_server.tools.focus import Focus
 
-from azcam_server.tools.webserver.fastapi_server import WebServer
-from azcam_server.tools.webtools.exptool.exptool import Exptool
-from azcam_server.tools.webtools.status.status import Status
+from azcam_server.webserver.fastapi_server import WebServer
+from azcam_webtools.status.status import Status
+from azcam_webtools.exptool.exptool import Exptool
 
 from azcam_90prime.telescope_bok import BokTCS
 
@@ -105,8 +105,12 @@ if option == "menu":
 CSS = 0
 ARCHON = 0
 if "90primeone" in option:
-    parfile = os.path.join(azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini")
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90primeone_master.txt")
+    parfile = os.path.join(
+        azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini"
+    )
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90primeone_master.txt"
+    )
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
@@ -120,7 +124,9 @@ elif "normal" in option:
     parfile = os.path.join(
         azcam.db.datafolder, "parameters", "parameters_server_90prime_normal.ini"
     )
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_master.txt")
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
+    )
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
@@ -131,8 +137,12 @@ elif "normal" in option:
     azcam.db.servermode = "normal"
     cmdport = 2402
 elif "fast" in option:
-    parfile = os.path.join(azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini")
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_master.txt")
+    parfile = os.path.join(
+        azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini"
+    )
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
+    )
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
@@ -147,7 +157,9 @@ elif "overscan" in option:
     parfile = os.path.join(
         azcam.db.datafolder, "parameters", "parameters_server_90prime_overscan.ini"
     )
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_master.txt")
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
+    )
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
@@ -159,8 +171,12 @@ elif "overscan" in option:
     cmdport = 2402
 elif "css" in option:
     CSS = 1
-    parfile = os.path.join(azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini")
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_css.txt")
+    parfile = os.path.join(
+        azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
+    )
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90prime_css.txt"
+    )
     timingfile = os.path.join(
         azcam.db.systemfolder,
         "dspcode",
@@ -175,7 +191,9 @@ elif "archon" in option:
     parfile = os.path.join(
         azcam.db.datafolder, "parameters", "parameters_server_90prime_archon.ini"
     )
-    template = os.path.join(azcam.db.datafolder, "templates", "fits_template_90prime_archon.txt")
+    template = os.path.join(
+        azcam.db.datafolder, "templates", "fits_template_90prime_archon.txt"
+    )
     timingfile = os.path.join(
         azcam.db.datafolder,
         "dspcode",
