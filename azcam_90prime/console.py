@@ -1,4 +1,6 @@
-# azcamconsole config file
+"""
+azcamconsole config for 90prime
+"""
 
 import os
 import sys
@@ -34,74 +36,79 @@ else:
     azcam.db.datafolder = datafolder
 azcam.db.datafolder = azcam.utils.fix_path(azcam.db.datafolder)
 
-parfile = os.path.join(
-    azcam.db.datafolder, "parameters", f"parameters_console_{azcam.db.systemname}.ini"
-)
 
-# ****************************************************************
-# start logging
-# ****************************************************************
-logfile = os.path.join(azcam.db.datafolder, "logs", "console.log")
-azcam.db.logger.start_logging(logfile=logfile)
-azcam.log(f"Configuring console for {azcam.db.systemname}")
+def setup():
+    parfile = os.path.join(
+        azcam.db.datafolder,
+        "parameters",
+        f"parameters_console_{azcam.db.systemname}.ini",
+    )
 
-# ****************************************************************
-# display
-# ****************************************************************
-display = Ds9Display()
-dthread = threading.Thread(target=display.initialize, args=[])
-dthread.start()  # thread just for speed
+    # ****************************************************************
+    # start logging
+    # ****************************************************************
+    logfile = os.path.join(azcam.db.datafolder, "logs", "console.log")
+    azcam.db.logger.start_logging(logfile=logfile)
+    azcam.log(f"Configuring console for {azcam.db.systemname}")
 
-# ****************************************************************
-# console tools
-# ****************************************************************
-from azcam_console.tools import create_console_tools
+    # ****************************************************************
+    # display
+    # ****************************************************************
+    display = Ds9Display()
+    dthread = threading.Thread(target=display.initialize, args=[])
+    dthread.start()  # thread just for speed
 
-create_console_tools()
+    # ****************************************************************
+    # console tools
+    # ****************************************************************
+    from azcam_console.tools import create_console_tools
 
-# ****************************************************************
-# observe
-# ****************************************************************
-azcam.log("Loading observe")
-from azcam_observe.observe_cli.observe_cli import ObserveCli
+    create_console_tools()
 
-observe = ObserveCli()
-observe.move_telescope_during_readout = 1
+    # ****************************************************************
+    # observe
+    # ****************************************************************
+    azcam.log("Loading observe")
+    from azcam_observe.observe_cli.observe_cli import ObserveCli
 
-# ****************************************************************
-# focus tool
-# ****************************************************************
-focus = FocusConsole()
-focus.focus_component = "instrument"
-focus.focus_type = "step"
+    observe = ObserveCli()
+    observe.move_telescope_during_readout = 1
 
-# ****************************************************************
-# try to connect to azcamserver
-# ****************************************************************
-ports = [2402, 2412, 2422, 2432, 2442]
-connected = 0
-server = azcam.db.tools["server"]
-for port in ports:
-    connected = server.connect(port=port)
+    # ****************************************************************
+    # focus tool
+    # ****************************************************************
+    focus = FocusConsole()
+    focus.focus_component = "instrument"
+    focus.focus_type = "step"
+
+    # ****************************************************************
+    # try to connect to azcamserver
+    # ****************************************************************
+    ports = [2402, 2412, 2422, 2432, 2442]
+    connected = 0
+    server = azcam.db.tools["server"]
+    for port in ports:
+        connected = server.connect(port=port)
+        if connected:
+            break
+
     if connected:
-        break
+        azcam.log("Connected to azcamserver")
+    else:
+        azcam.log("Not connected to azcamserver")
 
-if connected:
-    azcam.log("Connected to azcamserver")
-else:
-    azcam.log("Not connected to azcamserver")
+    # ****************************************************************
+    # parameter file
+    # ****************************************************************
+    azcam.db.parameters.read_parfile(parfile)
+    azcam.db.parameters.update_pars("azcamconsole")
 
-# ****************************************************************
-# parameter file
-# ****************************************************************
-azcam.db.parameters.read_parfile(parfile)
-azcam.db.parameters.update_pars("azcamconsole")
+    # try to change window title
+    try:
+        ctypes.windll.kernel32.SetConsoleTitleW("azcamconsole")
+    except Exception:
+        pass
 
-# cli commands
+
+setup()
 from azcam.cli import *
-
-# try to change window title
-try:
-    ctypes.windll.kernel32.SetConsoleTitleW("azcamconsole")
-except Exception:
-    pass
