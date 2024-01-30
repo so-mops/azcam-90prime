@@ -1,10 +1,12 @@
 """
-azcamserver config for 90prime
+Setup method for 90prime azcamserver.
+Usage example:
+  python -i -m azcam_90prime.server -- -system archon
 """
+
 
 import os
 import sys
-import ctypes
 
 import azcam
 import azcam_server.server
@@ -24,60 +26,55 @@ from azcam_90prime.telescope_bok import BokTCS
 from azcam_90prime.instrument_pf import PrimeFocusInstrument
 from azcam_90prime.instrument_pf_ngserver import PrimeFocusInstrumentUpgrade
 
-# ****************************************************************
-# parse command line arguments
-# ****************************************************************
-option = "menu"
-try:
-    i = sys.argv.index("-normal")
-    option = "normal"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-90primeone")
-    option = "90primeone"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-overscan")
-    option = "overscan"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-fast")
-    option = "fast"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-css")
-    option = "css"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-archon")
-    option = "archon"
-except ValueError:
-    pass
-try:
-    i = sys.argv.index("-datafolder")
-    datafolder = sys.argv[i + 1]
-except ValueError:
-    datafolder = None
-
-try:
-    i = sys.argv.index("-remotehost")
-    remote_host = sys.argv[i + 1]
-except ValueError:
-    remote_host = None
-    # remote_host = "10.30.1.7"
-
 
 def setup():
-    global option, datafolder, remote_host
+    # command line args
+    option = "menu"
+    try:
+        i = sys.argv.index("-normal")
+        option = "normal"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-90primeone")
+        option = "90primeone"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-overscan")
+        option = "overscan"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-fast")
+        option = "fast"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-css")
+        option = "css"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-archon")
+        option = "archon"
+    except ValueError:
+        pass
+    try:
+        i = sys.argv.index("-datafolder")
+        datafolder = sys.argv[i + 1]
+    except ValueError:
+        datafolder = None
 
-    # ****************************************************************
+    try:
+        i = sys.argv.index("-remotehost")
+        remote_host = sys.argv[i + 1]
+    except ValueError:
+        remote_host = None
+
+    # remote_host = "10.30.1.7"
+
     # define folders for system
-    # ****************************************************************
     azcam.db.systemname = "90prime"
 
     azcam.db.rootfolder = os.path.abspath(os.path.dirname(__file__))
@@ -93,9 +90,7 @@ def setup():
     else:
         azcam.db.datafolder = datafolder
 
-    # ****************************************************************
     # configuration menu
-    # ****************************************************************
     menu_options = {
         "90prime (standard mode)": "normal",
         "90primeOne": "90primeone",
@@ -211,16 +206,12 @@ def setup():
     else:
         raise azcam.AzcamError("bad server configuration")
 
-    # ****************************************************************
     # logging
-    # ****************************************************************
     logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
     azcam.db.logger.start_logging(logfile=logfile)
     azcam.log(f"90prime mode: {option}")
 
-    # ****************************************************************
     # controller
-    # ****************************************************************
     if ARCHON:
         from azcam_server.tools.archon.controller_archon import ControllerArchon
         from azcam_server.tools.archon.exposure_archon import ExposureArchon
@@ -249,9 +240,7 @@ def setup():
         )
         controller.timing_file = timingfile
 
-    # ****************************************************************
     # temperature controller
-    # ****************************************************************
     if ARCHON:
         from azcam_server.tools.archon.tempcon_archon import TempConArchon
 
@@ -279,9 +268,7 @@ def setup():
             "loop 1:maxpwr 100",
         ]
 
-    # ****************************************************************
     # exposure
-    # ****************************************************************
     if ARCHON:
         exposure = ExposureArchon()
         exposure.filetype = exposure.filetypes["MEF"]
@@ -318,9 +305,7 @@ def setup():
         # sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
         sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
-    # ****************************************************************
     # instrument
-    # ****************************************************************
     # instrument = PrimeFocusInstrument()
     instrument = PrimeFocusInstrumentUpgrade()
     if remote_host is not None:
@@ -328,29 +313,21 @@ def setup():
     if 0:
         instrument.initialize()
 
-    # ****************************************************************
     # telescope
-    # ****************************************************************
     telescope = BokTCS()
 
-    # ****************************************************************
     # focus
-    # ****************************************************************
     focus = Focus()
     focus.focus_component = "instrument"
     focus.focus_type = "step"
     focus.initialize()
 
-    # ****************************************************************
     # system header template
-    # ****************************************************************
     system = System("90prime", template)
     system.set_keyword("DETNAME", "90prime2", "Detector name")
     system.set_keyword("DEWAR", "90prime2", "Dewar name")
 
-    # ****************************************************************
     # detector
-    # ****************************************************************
     if "90primeone" in option:
         from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
@@ -368,14 +345,10 @@ def setup():
             detector_bok90prime["format"] = [4032 * 2, 6, 0, 20, 4096 * 2, 0, 0, 20, 0]
         exposure.set_detpars(detector_bok90prime)
 
-    # ****************************************************************
     # display
-    # ****************************************************************
     display = Ds9Display()
 
-    # ****************************************************************
     # system-specific
-    # ****************************************************************
     if CSS:
         from azcam_90prime.css import CSS
 
@@ -392,24 +365,18 @@ def setup():
     exposure.image.focalplane.wcs.scale2 = 8 * [-1 * sc]
     exposure.image.focalplane.wcs.rot_deg = 8 * [90.0]
 
-    # ****************************************************************
     # parameter file
-    # ****************************************************************
     azcam.db.parameters.read_parfile(parfile)
     azcam.db.parameters.update_pars("azcamserver")
 
-    # ****************************************************************
     # command server
-    # ****************************************************************
     cmdserver = CommandServer()
     cmdserver.port = cmdport
     azcam.log(f"Starting cmdserver - listening on port {cmdserver.port}")
     # cmdserver.welcome_message = "Welcome - azcam-itl server"
     cmdserver.start()
 
-    # ****************************************************************
     # web server
-    # ****************************************************************
     if 1:
         webserver = WebServer()
         webserver.logcommands = 0
@@ -423,32 +390,21 @@ def setup():
         exptool = Exptool()
         exptool.initialize()
 
-    # ****************************************************************
     # controller server
-    # ****************************************************************
     if ARCHON:
         pass
     else:
         import azcam_90prime.restart_cameraserver
 
-    # ****************************************************************
     # GUIs
-    # ****************************************************************
     if 1:
         if os.name != "posix":
             import azcam_90prime.start_azcamtool
 
-    # try to change window title
-    try:
-        ctypes.windll.kernel32.SetConsoleTitleW("azcamserver")
-    except Exception:
-        pass
-
-    # ****************************************************************
     # finish
-    # ****************************************************************
     azcam.log("Configuration complete")
 
 
+# start
 setup()
 from azcam.cli import *
