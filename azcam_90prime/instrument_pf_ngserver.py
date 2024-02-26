@@ -7,6 +7,7 @@ import time
 import math
 
 import azcam
+from azcam import exceptions
 from azcam_server.tools.instrument import Instrument
 from .Galil_DMC_22x0_NgClient import NgClient
 from .Galil_DMC_22x0_Read_Telemetry import TelemetryClient
@@ -34,7 +35,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
 
     def initialize(self):
         if not self.enabled:
-            azcam.AzcamWarning(f"{self.name} is not enabled")
+            exceptions.warning(f"{self.name} is not enabled")
             return
 
         self.iserver = NgClient(self.host, self.port, simulate=self.simulate)
@@ -252,7 +253,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise azcam.AzcamError(f"keyword not defined: {keyword}")
+                raise exceptions.AzcamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":
@@ -277,7 +278,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         """
 
         if not self.enabled:
-            azcam.AzcamWarning("instrument not enabled")
+            exceptions.warning("instrument not enabled")
             return
 
         header = []
@@ -317,7 +318,9 @@ class PrimeFocusInstrumentUpgrade(Instrument):
                     self.header.set_keyword(key[:8], value, key, "float")
                 except:
                     self.header.set_keyword(key[:8], value, key, "string")
-            dict1 = self.telclient.jdata["weather"]["mirror_cell"]["data"]["mirror_cell"]
+            dict1 = self.telclient.jdata["weather"]["mirror_cell"]["data"][
+                "mirror_cell"
+            ]
             # dict1 = self.telclient.parse_json(_key="mirror_cell")
             for key in dict1:
                 if key == "error":

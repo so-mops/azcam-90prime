@@ -9,6 +9,7 @@ import socket
 import time
 
 import azcam
+from azcam import exceptions
 from azcam_server.tools.instrument import Instrument
 
 
@@ -42,7 +43,7 @@ class PrimeFocusInstrument(Instrument):
 
     def initialize(self):
         if not self.enabled:
-            azcam.AzcamWarning(f"{self.name} is not enabled")
+            exceptions.warning(f"{self.name} is not enabled")
             return
 
         # execute a command to make sure communication is OK
@@ -69,7 +70,9 @@ class PrimeFocusInstrument(Instrument):
 
             # read current value of keywords
             for key in self.header.get_keywords():
-                azcam.log(("Keyword: %s has value: %s" % (key, self.get_keyword(key)[1])))
+                azcam.log(
+                    ("Keyword: %s has value: %s" % (key, self.get_keyword(key)[1]))
+                )
 
             reply = self.get_filter()
             azcam.log(("Filter is %s" % reply))
@@ -402,7 +405,7 @@ class PrimeFocusInstrument(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise azcam.AzcamError(f"keyword not defined: {keyword}")
+                raise exceptions.AzcamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":
@@ -427,7 +430,7 @@ class PrimeFocusInstrument(Instrument):
         """
 
         if not self.enabled:
-            azcam.AzcamWarning("instrument not enabled")
+            exceptions.warning("instrument not enabled")
             return
 
         header = []
@@ -532,7 +535,7 @@ class InstrumentServerInterface(object):
             return
         except Exception:
             self.close()
-            azcam.AzcamError("instrument not opened")
+            exceptions.AzcamError("instrument not opened")
 
     def close(self):
         """
@@ -584,10 +587,12 @@ class InstrumentServerInterface(object):
         """
 
         try:
-            self.Socket.send(str.encode(Command + Terminator))  # send command with terminator
+            self.Socket.send(
+                str.encode(Command + Terminator)
+            )  # send command with terminator
             return
         except Exception:
-            raise azcam.AzcamError("could not send command to instrument")
+            raise exceptions.AzcamError("could not send command to instrument")
 
     def recv(self, Length=-1, Terminator="\n"):
         """

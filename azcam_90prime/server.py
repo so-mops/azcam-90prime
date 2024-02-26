@@ -4,11 +4,11 @@ Usage example:
   python -i -m azcam_90prime.server -- -system archon
 """
 
-
 import os
 import sys
 
 import azcam
+from azcam import exceptions
 import azcam_server.server
 import azcam_server.shortcuts
 from azcam_server.cmdserver import CommandServer
@@ -204,7 +204,7 @@ def setup():
         azcam.db.servermode = "archon"
         cmdport = 2442
     else:
-        raise azcam.AzcamError("bad server configuration")
+        raise exceptions.AzcamError("bad server configuration")
 
     # logging
     logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
@@ -384,11 +384,11 @@ def setup():
         webserver.port = 2403  # common port for all configurations
         webserver.start()
 
-        webstatus = Status()
+        webstatus = Status(webserver)
         webstatus.initialize()
 
         exptool = Exptool()
-        exptool.initialize()
+        exptool.initialize(webserver)
 
     # controller server
     if ARCHON:
