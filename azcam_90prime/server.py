@@ -17,9 +17,9 @@ from azcam_server.tools.ds9display import Ds9Display
 from azcam_server.tools.sendimage import SendImage
 from azcam_server.tools.focus import Focus
 
-from azcam_webtools.webserver.fastapi_server import WebServer
-from azcam_webtools.status.status import Status
-from azcam_webtools.exptool.exptool import Exptool
+from azcam_server.webtools.webserver.fastapi_server import WebServer
+from azcam_server.webtools.status.status import Status
+from azcam_server.webtools.exptool.exptool import Exptool
 
 from azcam_90prime.telescope_bok import BokTCS
 
