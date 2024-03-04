@@ -8,7 +8,7 @@ import math
 
 import azcam
 from azcam import exceptions
-from azcam_server.tools.instrument import Instrument
+from azcam.server.tools.instrument import Instrument
 from .Galil_DMC_22x0_NgClient import NgClient
 from .Galil_DMC_22x0_Read_Telemetry import TelemetryClient
 
