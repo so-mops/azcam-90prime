@@ -9,7 +9,7 @@ import sys
 
 import azcam
 import azcam.utils
-from azcam import exceptions
+import azcam.exceptions
 import azcam.server.server
 import azcam.server.shortcuts
 from azcam.server.cmdserver import CommandServer
@@ -198,7 +198,7 @@ def setup():
         azcam.db.servermode = "archon"
         cmdport = 2442
     else:
-        raise exceptions.AzcamError("bad server configuration")
+        raise azcam.exceptions.AzCamError("bad server configuration")
 
     # logging
     logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")

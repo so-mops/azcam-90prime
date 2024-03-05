@@ -7,7 +7,7 @@ import time
 import math
 
 import azcam
-from azcam import exceptions
+import azcam.exceptions
 from azcam.server.tools.instrument import Instrument
 from azcam_90prime.Galil_DMC_22x0_NgClient import NgClient
 from azcam_90prime.Galil_DMC_22x0_Read_Telemetry import TelemetryClient
@@ -35,7 +35,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
 
     def initialize(self):
         if not self.enabled:
-            exceptions.warning(f"{self.name} is not enabled")
+            azcam.exceptions.warning(f"{self.name} is not enabled")
             return
 
         self.iserver = NgClient(self.host, self.port, simulate=self.simulate)
@@ -253,7 +253,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise exceptions.AzcamError(f"keyword not defined: {keyword}")
+                raise azcam.exceptions.AzCamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":
@@ -278,7 +278,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         """
 
         if not self.enabled:
-            exceptions.warning("instrument not enabled")
+            azcam.exceptions.warning("instrument not enabled")
             return
 
         header = []

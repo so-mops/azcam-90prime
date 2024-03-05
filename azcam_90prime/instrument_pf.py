@@ -9,7 +9,7 @@ import socket
 import time
 
 import azcam
-from azcam import exceptions
+import azcam.exceptions
 from azcam.server.tools.instrument import Instrument
 
 
@@ -43,7 +43,7 @@ class PrimeFocusInstrument(Instrument):
 
     def initialize(self):
         if not self.enabled:
-            exceptions.warning(f"{self.name} is not enabled")
+            azcam.exceptions.warning(f"{self.name} is not enabled")
             return
 
         # execute a command to make sure communication is OK
@@ -405,7 +405,7 @@ class PrimeFocusInstrument(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise exceptions.AzcamError(f"keyword not defined: {keyword}")
+                raise azcam.exceptions.AzCamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":
@@ -430,7 +430,7 @@ class PrimeFocusInstrument(Instrument):
         """
 
         if not self.enabled:
-            exceptions.warning("instrument not enabled")
+            azcam.exceptions.warning("instrument not enabled")
             return
 
         header = []
@@ -535,7 +535,7 @@ class InstrumentServerInterface(object):
             return
         except Exception:
             self.close()
-            exceptions.AzcamError("instrument not opened")
+            azcam.exceptions.AzCamError("instrument not opened")
 
     def close(self):
         """
@@ -592,7 +592,7 @@ class InstrumentServerInterface(object):
             )  # send command with terminator
             return
         except Exception:
-            raise exceptions.AzcamError("could not send command to instrument")
+            raise azcam.exceptions.AzCamError("could not send command to instrument")
 
     def recv(self, Length=-1, Terminator="\n"):
         """
