@@ -198,7 +198,7 @@ def setup():
         azcam.db.servermode = "archon"
         cmdport = 2442
     else:
-        raise azcam.exceptions.AzCamError("bad server configuration")
+        raise azcam.exceptions.AzcamError("bad server configuration")
 
     # logging
     logfile = os.path.join(azcam.db.datafolder, "logs", "server.log")
@@ -381,8 +381,8 @@ def setup():
         webstatus = Status(webserver)
         webstatus.initialize()
 
-        exptool = Exptool()
-        exptool.initialize(webserver)
+        exptool = Exptool(webserver)
+        exptool.initialize()
 
     # controller server
     if ARCHON:
@@ -391,7 +391,7 @@ def setup():
         import azcam_90prime.restart_cameraserver
 
     # GUIs
-    if 1:
+    if 0:
         if os.name != "posix":
             import azcam_90prime.start_azcamtool
 

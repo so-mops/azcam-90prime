@@ -253,7 +253,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise azcam.exceptions.AzCamError(f"keyword not defined: {keyword}")
+                raise azcam.exceptions.AzcamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":

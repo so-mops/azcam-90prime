@@ -405,7 +405,7 @@ class PrimeFocusInstrument(Instrument):
             try:
                 reply = self.header.values[keyword]
             except Exception:
-                raise azcam.exceptions.AzCamError(f"keyword not defined: {keyword}")
+                raise azcam.exceptions.AzcamError(f"keyword not defined: {keyword}")
 
         # convert type
         if self.header.typestrings[keyword] == "int":
@@ -535,7 +535,7 @@ class InstrumentServerInterface(object):
             return
         except Exception:
             self.close()
-            azcam.exceptions.AzCamError("instrument not opened")
+            azcam.exceptions.AzcamError("instrument not opened")
 
     def close(self):
         """
@@ -592,7 +592,7 @@ class InstrumentServerInterface(object):
             )  # send command with terminator
             return
         except Exception:
-            raise azcam.exceptions.AzCamError("could not send command to instrument")
+            raise azcam.exceptions.AzcamError("could not send command to instrument")
 
     def recv(self, Length=-1, Terminator="\n"):
         """
