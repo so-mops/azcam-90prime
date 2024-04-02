@@ -15,7 +15,6 @@ import azcam.server.shortcuts
 from azcam.server.cmdserver import CommandServer
 from azcam.header import System
 from azcam.server.tools.ds9display import Ds9Display
-from azcam.server.tools.sendimage import SendImage
 from azcam.server.tools.focus import Focus
 
 from azcam.server.webtools.webserver.fastapi_server import WebServer
@@ -269,7 +268,6 @@ def setup():
         exposure.image.filetype = exposure.filetypes["MEF"]
         # exposure.update_headers_in_background = 1
         exposure.display_image = 0
-        sendimage = SendImage()
         exposure.add_extensions = 1
 
         exposure.image.focalplane.gains = [
@@ -290,14 +288,13 @@ def setup():
         exposure.image.filetype = exposure.filetypes["MEF"]
         exposure.update_headers_in_background = 1
         exposure.display_image = 0
-        sendimage = SendImage()
 
     if remote_host is None:
         pass
     else:
         exposure.send_image = 1
-        # sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
-        sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
+        # exposure.sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
+        exposure.sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
     # instrument
     # instrument = PrimeFocusInstrument()
@@ -349,9 +346,9 @@ def setup():
         css = CSS()
         azcam.db.tools["css"] = css
         if remote_host is None:
-            sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+            exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
         else:
-            sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
+            exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
         exposure.folder = "/home/css"
 
     sc = 0.000125
@@ -361,7 +358,7 @@ def setup():
 
     # parameter file
     azcam.db.parameters.read_parfile(parfile)
-    azcam.db.parameters.update_pars("azcamserver")
+    azcam.db.parameters.update_pars()
 
     # command server
     cmdserver = CommandServer()
