@@ -100,7 +100,7 @@ def setup():
     ARCHON = 0
     if "90primeone" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_one.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90primeone_master.txt"
@@ -116,7 +116,7 @@ def setup():
         cmdport = 2432
     elif "normal" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_normal.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_normal.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -132,7 +132,7 @@ def setup():
         cmdport = 2402
     elif "fast" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_fast.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -149,7 +149,7 @@ def setup():
         cmdport = 2402
     elif "overscan" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_overscan.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_overscan.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -166,7 +166,7 @@ def setup():
     elif "css" in option:
         CSS = 1
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_css.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_css.txt"
@@ -183,7 +183,7 @@ def setup():
     elif "archon" in option:
         ARCHON = 1
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_server_90prime_archon.ini"
+            azcam.db.datafolder, "parameters", "parameters_90prime_archon.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_archon.txt"
