@@ -34,7 +34,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         self.telemetry_enabled = 1
 
     def initialize(self):
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning(f"{self.name} is not enabled")
             return
 
@@ -45,7 +45,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
 
         self.telclient = TelemetryClient()
 
-        self.initialized = True
+        self.is_initialized = True
 
         return
 
@@ -277,7 +277,7 @@ class PrimeFocusInstrumentUpgrade(Instrument):
         Type is one of 'str', 'int', 'float', or 'complex'.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning("instrument not enabled")
             return
 

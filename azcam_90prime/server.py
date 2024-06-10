@@ -17,7 +17,7 @@ from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
 
-from azcam.webtools.webserver.fastapi_server import WebServer
+from azcam.webtools.webserver import WebServer
 from azcam.webtools.status.status import Status
 from azcam.webtools.exptool.exptool import Exptool
 

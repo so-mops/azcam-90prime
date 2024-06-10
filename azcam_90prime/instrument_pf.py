@@ -42,14 +42,14 @@ class PrimeFocusInstrument(Instrument):
         self.define_keywords()
 
     def initialize(self):
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning(f"{self.name} is not enabled")
             return
 
         # execute a command to make sure communication is OK
         self.get_focus()
 
-        self.initialized = True
+        self.is_initialized = True
 
         return
 
@@ -429,7 +429,7 @@ class PrimeFocusInstrument(Instrument):
         Type is one of 'str', 'int', 'float', or 'complex'.
         """
 
-        if not self.enabled:
+        if not self.is_enabled:
             azcam.exceptions.warning("instrument not enabled")
             return
 
