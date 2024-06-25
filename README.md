@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository contains the *azcam-90prime* azcam environment.  It contains code and data files for the University of Arizona Bok telescope 90prime facility camera system.
+This repository contains the *azcam-90prime* azcam environment.  It includes code and data files for the University of Arizona Bok telescope 90prime facility camera system.
 
 ## Installation
 

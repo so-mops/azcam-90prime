@@ -1,7 +1,7 @@
 """
 Setup method for 90prime azcamserver.
 Usage example:
-  python -i -m azcam_90prime.server -- -system archon
+  python -i -m azcam_90prime.server -- -archon
 """
 
 import os
@@ -16,13 +16,11 @@ from azcam.cmdserver import CommandServer
 from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
-
 from azcam.webtools.webserver import WebServer
 from azcam.webtools.status.status import Status
 from azcam.webtools.exptool.exptool import Exptool
 
 from azcam_90prime.telescope_bok import BokTCS
-
 from azcam_90prime.instrument_pf import PrimeFocusInstrument
 from azcam_90prime.instrument_pf_ngserver import PrimeFocusInstrumentUpgrade
 
@@ -55,11 +53,13 @@ def setup():
         option = "css"
     except ValueError:
         pass
+
     try:
         i = sys.argv.index("-archon")
         option = "archon"
     except ValueError:
         pass
+
     try:
         i = sys.argv.index("-datafolder")
         datafolder = sys.argv[i + 1]
@@ -71,6 +71,12 @@ def setup():
         remote_host = sys.argv[i + 1]
     except ValueError:
         remote_host = None
+
+    try:
+        i = sys.argv.index("-lab")
+        LAB = 1
+    except ValueError:
+        LAB = 0
 
     # remote_host = "10.30.1.7"
 
@@ -338,6 +344,7 @@ def setup():
 
     # display
     display = Ds9Display()
+    display.initialize()
 
     # system-specific
     if CSS:
