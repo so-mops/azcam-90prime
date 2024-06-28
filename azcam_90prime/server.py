@@ -371,7 +371,7 @@ def setup():
     cmdserver = CommandServer()
     cmdserver.port = cmdport
     azcam.log(f"Starting cmdserver - listening on port {cmdserver.port}")
-    # cmdserver.welcome_message = "Welcome - azcam-itl server"
+    azcam.db.tools["api"].initialize_api()
     cmdserver.start()
 
     # web server
@@ -393,6 +393,10 @@ def setup():
         pass
     else:
         import azcam_90prime.restart_cameraserver
+
+    # azcammonitor
+    azcam.db.monitor.proc_path = "/azcam/azcam-vatt/support/start_server_90prime.bat"
+    azcam.db.monitor.register()
 
     # GUIs
     if 0:
