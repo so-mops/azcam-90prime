@@ -395,7 +395,7 @@ def setup():
         import azcam_90prime.restart_cameraserver
 
     # azcammonitor
-    azcam.db.monitor.proc_path = "/azcam/azcam-vatt/support/start_server_90prime.bat"
+    azcam.db.monitor.proc_path = "/azcam/azcam-90prime/support/start_server_90prime.bat"
     azcam.db.monitor.register()
 
     # GUIs
