@@ -398,7 +398,7 @@ def setup():
         import azcam_90prime.restart_cameraserver
 
     # GUIs
-    if 0:
+    if 1:
         if os.name != "posix":
             import azcam_90prime.start_azcamtool
 
