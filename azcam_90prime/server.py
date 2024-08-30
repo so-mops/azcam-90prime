@@ -16,9 +16,7 @@ from azcam.cmdserver import CommandServer
 from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
-from azcam.webtools.webserver import WebServer
-from azcam.webtools.status.status import Status
-from azcam.webtools.exptool.exptool import Exptool
+from azcam.web.webserver_dash import WebServer
 
 from azcam_90prime.telescope_bok import BokTCS
 from azcam_90prime.instrument_pf import PrimeFocusInstrument
@@ -375,18 +373,10 @@ def setup():
     cmdserver.start()
 
     # web server
-    if 1:
-        webserver = WebServer()
-        webserver.logcommands = 0
-        webserver.index = os.path.join(azcam.db.systemfolder, "index_90prime.html")
-        webserver.port = 2403  # common port for all configurations
-        webserver.start()
-
-        webstatus = Status(webserver)
-        webstatus.initialize()
-
-        exptool = Exptool(webserver)
-        exptool.initialize()
+    webserver = WebServer()
+    webserver.logcommands = 0
+    webserver.port = 2403  # common port for all configurations
+    webserver.start()
 
     # azcammonitor
     azcam.db.monitor.register()
