@@ -101,30 +101,30 @@ detector_bok90prime_one = {
 }
 
 ###############################################################################
-# new mosaic below
+# new mosaic - 8 chans
 ###############################################################################
 
-gapX_new = 2.959 / 0.015  # gaps between amplifiers and CCDs (in pixels)
-gapY_new = 1.820 / 0.015
+gapX_new = 3.082 / 0.015  # gaps between amplifiers and CCDs (in pixels)
+gapY_new = 2.099 / 0.015
+
+# read all Archon channels with "L" and bottom. Deinterlace and flip here.
 
 detector_bok90prime_archon = {
     "name": "90prime2",
-    "description": "90prime new mosaic",
+    "description": "90prime mosaic",
     "ref_pixel": [4080.0, 4080.0],
     "format": [4080 * 2, 4, 0, 20, 4080 * 2, 0, 0, 0, 0],
     "focalplane": [2, 2, 4, 2, [0, 1, 0, 1, 0, 1, 0, 1]],
     "roi": [1, 4080 * 2, 1, 4080 * 2, 1, 1],
-    "jpg_order": [1, 2, 3, 4, 5, 6, 7, 8],
-    "det_number": [1, 1, 2, 2, 3, 3, 4, 4],
     "amp_pixel_position": [
         [1, 1],
         [4080, 1],
         [4081, 1],
         [8160, 1],
-        [1, 8160],
-        [4080, 8160],
-        [4081, 8160],
-        [8160, 8160],
+        [1, 4081],
+        [4080, 4081],
+        [4081, 4081],
+        [8160, 4081],
     ],
     "det_gap": [
         [0, 0],
@@ -136,7 +136,7 @@ detector_bok90prime_archon = {
         [gapX_new, gapY_new],
         [gapX_new, gapY_new],
     ],
-    # should change both location
+    # WCS related
     "det_position": [
         [1, 1],
         [1, 1],
@@ -147,6 +147,9 @@ detector_bok90prime_archon = {
         [2, 2],
         [2, 2],
     ],
+    # CCDNAME of each extension
+    "det_number": [2, 2, 1, 1, 4, 4, 3, 3],
+    # ext_position changes where ext_name appears
     "ext_position": [
         [1, 1],
         [2, 1],
@@ -157,15 +160,6 @@ detector_bok90prime_archon = {
         [3, 2],
         [4, 2],
     ],
-    "ext_name": [
-        "im1",
-        "im2",
-        "im3",
-        "im4",
-        "im5",
-        "im6",
-        "im7",
-        "im8",
-    ],
-    "ext_number": [1, 2, 3, 4, 5, 6, 7, 8],
 }
+
+# ext_position - det_position > 0

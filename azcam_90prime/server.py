@@ -196,7 +196,7 @@ def setup():
             azcam.db.datafolder,
             "dspcode",
             "archon",
-            "90prime_newmosaic_10.acf",
+            "90prime_12sep24_final.acf",
         )
         azcam.db.servermode = "archon"
         cmdport = 2442
@@ -217,8 +217,9 @@ def setup():
         controller.timing_file = timingfile
         controller.camserver.port = 4242
         controller.camserver.host = "10.30.3.6"  # archon at Bok
-        controller.reset_flag = 0  # 0 for soft reset, 1 to upload code
-        controller.verbosity = 2
+        controller.reset_flag = 1  # 0 for soft reset, 1 to upload code
+        controller.verbosity = 1
+        azcam.db.verbosity = 1
 
     else:
         from azcam.tools.arc.controller_arc import ControllerArc
@@ -274,17 +275,17 @@ def setup():
         exposure.display_image = 0
         exposure.add_extensions = 1
 
-        exposure.image.focalplane.gains = [
-            2.94,
-            2.89,
-            2.93,
-            2.86,
-            2.93,
-            2.92,
-            2.86,
-            2.86,
+        exposure.image.focalplane.gains = 8 * [2.2]
+        exposure.image.focalplane.rdnoises = [
+            7.8,
+            7.1,
+            10.7,
+            8.1,
+            6.2,
+            7.1,
+            6.6,
+            7.0,
         ]
-        exposure.image.focalplane.rdnoises = [5.6, 5.0, 8.4, 5.1, 5.0, 13.3, 4.8, 5.8]
 
     else:
         exposure = ExposureArc()

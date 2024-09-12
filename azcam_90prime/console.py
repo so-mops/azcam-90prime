@@ -12,7 +12,8 @@ import azcam
 import azcam.utils
 import azcam_console.console
 import azcam_console.shortcuts
-import azcam_console.tools.console_tools
+from azcam_console.tools import create_console_tools
+from azcam_console.testers.testers import load_testers
 from azcam.tools.ds9display import Ds9Display
 from azcam_console.tools.focus import FocusConsole
 
@@ -35,7 +36,7 @@ def setup():
     parfile = os.path.join(
         azcam.db.datafolder,
         "parameters",
-        f"parameters_console_{azcam.db.systemname}_normal.ini",
+        f"parameters_console_{azcam.db.systemname}.ini",
     )
 
     # start logging
@@ -49,9 +50,8 @@ def setup():
     dthread.start()  # thread just for speed
 
     # console tools
-    from azcam_console.tools import create_console_tools
-
     create_console_tools()
+    load_testers()
 
     # observe
     azcam.log("Loading observe")
