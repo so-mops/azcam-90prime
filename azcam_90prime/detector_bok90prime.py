@@ -107,7 +107,7 @@ detector_bok90prime_one = {
 gapX_new = 3.082 / 0.015  # gaps between amplifiers and CCDs (in pixels)
 gapY_new = 2.099 / 0.015
 
-# read all Archon channels with "L" and bottom. Deinterlace and flip here.
+# read all Archon channels and R/L deinterlace.
 
 detector_bok90prime_archon = {
     "name": "90prime2",
@@ -161,5 +161,4 @@ detector_bok90prime_archon = {
         [4, 2],
     ],
 }
-
-# ext_position - det_position > 0
+# Note: ext_position - det_position >= 0

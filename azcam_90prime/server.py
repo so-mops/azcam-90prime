@@ -24,6 +24,7 @@ from azcam_90prime.instrument_pf_ngserver import PrimeFocusInstrumentUpgrade
 
 
 def setup():
+
     # command line args
     option = "menu"
     try:
@@ -57,32 +58,26 @@ def setup():
         option = "archon"
     except ValueError:
         pass
-
     try:
         i = sys.argv.index("-datafolder")
         datafolder = sys.argv[i + 1]
     except ValueError:
         datafolder = None
-
+    try:
+        i = sys.argv.index("-nogui")
+        GUI = 0
+    except ValueError:
+        GUI = 1
     try:
         i = sys.argv.index("-remotehost")
         remote_host = sys.argv[i + 1]
     except ValueError:
         remote_host = None
-
-    try:
-        i = sys.argv.index("-lab")
-        LAB = 1
-    except ValueError:
-        LAB = 0
-
-    # remote_host = "10.30.1.7"
+        # remote_host = "10.30.1.7"
 
     # define folders for system
     azcam.db.systemname = "90prime"
-
     azcam.db.rootfolder = os.path.abspath(os.path.dirname(__file__))
-
     azcam.db.systemfolder = os.path.dirname(__file__)
     azcam.db.systemfolder = azcam.utils.fix_path(azcam.db.systemfolder)
     azcam.db.datafolder = azcam.utils.get_datafolder(datafolder)
@@ -104,7 +99,7 @@ def setup():
     ARCHON = 0
     if "90primeone" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_one.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90primeone_master.txt"
@@ -120,7 +115,7 @@ def setup():
         cmdport = 2432
     elif "normal" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_normal.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_normal.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -136,7 +131,7 @@ def setup():
         cmdport = 2402
     elif "fast" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_fast.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -153,7 +148,7 @@ def setup():
         cmdport = 2402
     elif "overscan" in option:
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_overscan.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_overscan.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_master.txt"
@@ -170,7 +165,7 @@ def setup():
     elif "css" in option:
         CSS = 1
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_css.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_css.txt"
@@ -187,7 +182,7 @@ def setup():
     elif "archon" in option:
         ARCHON = 1
         parfile = os.path.join(
-            azcam.db.datafolder, "parameters", "parameters_90prime_archon.ini"
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_archon.ini"
         )
         template = os.path.join(
             azcam.db.datafolder, "templates", "fits_template_90prime_archon.txt"
@@ -274,7 +269,6 @@ def setup():
         # exposure.update_headers_in_background = 1
         exposure.display_image = 0
         exposure.add_extensions = 1
-
         exposure.image.focalplane.gains = 8 * [2.2]
         exposure.image.focalplane.rdnoises = [
             7.8,
@@ -357,6 +351,7 @@ def setup():
             exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
         exposure.folder = "/home/css"
 
+    # WCS
     sc = 0.000125
     exposure.image.focalplane.wcs.scale1 = 8 * [-1 * sc]
     exposure.image.focalplane.wcs.scale2 = 8 * [-1 * sc]
@@ -376,20 +371,17 @@ def setup():
     # web server
     webserver = WebServer()
     webserver.logcommands = 0
-    webserver.port = 2403  # common port for all configurations
     webserver.start()
 
     # azcammonitor
     azcam.db.monitor.register()
 
-    # controller server
-    if ARCHON:
-        pass
-    else:
+    # controller server restart
+    if not ARCHON:
         import azcam_90prime.restart_cameraserver
 
-    # GUIs
-    if 1:
+    # GUI
+    if GUI:
         if os.name != "posix":
             import azcam_90prime.start_azcamtool
 
