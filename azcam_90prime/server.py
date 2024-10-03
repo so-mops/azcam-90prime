@@ -113,6 +113,7 @@ def setup():
         )
         azcam.db.servermode = "90primeone"
         cmdport = 2432
+        NUMCHANS = 4
     elif "normal" in option:
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_normal.ini"
@@ -129,6 +130,7 @@ def setup():
         )
         azcam.db.servermode = "normal"
         cmdport = 2402
+        NUMCHANS = 16
     elif "fast" in option:
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini"
@@ -146,6 +148,7 @@ def setup():
         )
         azcam.db.servermode = "fast"
         cmdport = 2402
+        NUMCHANS = 16
     elif "overscan" in option:
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_overscan.ini"
@@ -162,6 +165,7 @@ def setup():
         )
         azcam.db.servermode = "overscan"
         cmdport = 2402
+        NUMCHANS = 16
     elif "css" in option:
         CSS = 1
         parfile = os.path.join(
@@ -179,6 +183,7 @@ def setup():
         )
         azcam.db.servermode = "CSS"
         cmdport = 2422
+        NUMCHANS = 16
     elif "archon" in option:
         ARCHON = 1
         parfile = os.path.join(
@@ -195,6 +200,7 @@ def setup():
         )
         azcam.db.servermode = "archon"
         cmdport = 2442
+        NUMCHANS = 8
     else:
         raise azcam.exceptions.AzcamError("bad server configuration")
 
@@ -269,7 +275,7 @@ def setup():
         # exposure.update_headers_in_background = 1
         exposure.display_image = 0
         exposure.add_extensions = 1
-        exposure.image.focalplane.gains = 8 * [2.2]
+        exposure.image.focalplane.gains = NUMCHANS * [2.2]
         exposure.image.focalplane.rdnoises = [
             7.8,
             7.1,
@@ -389,9 +395,9 @@ def setup():
 
     # WCS
     sc = 0.000125
-    exposure.image.focalplane.wcs.scale1 = 8 * [-1 * sc]
-    exposure.image.focalplane.wcs.scale2 = 8 * [-1 * sc]
-    exposure.image.focalplane.wcs.rot_deg = 8 * [90.0]
+    exposure.image.focalplane.wcs.scale1 = NUMCHANS * [-1 * sc]
+    exposure.image.focalplane.wcs.scale2 = NUMCHANS * [-1 * sc]
+    exposure.image.focalplane.wcs.rot_deg = NUMCHANS * [90.0]
 
     # parameter file
     azcam.db.parameters.read_parfile(parfile)
