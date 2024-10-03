@@ -288,6 +288,42 @@ def setup():
         exposure.update_headers_in_background = 1
         exposure.display_image = 0
 
+        exposure.image.focalplane.gains = [
+            1.5,
+            1.7,
+            1.4,
+            1.6,
+            1.6,
+            1.6,
+            1.5,
+            1.5,
+            1.3,
+            1.4,
+            1.4,
+            1.5,
+            1.6,
+            1.4,
+            1.4,
+            1.5,
+        ]
+        exposure.image.focalplane.rdnoises = [
+            6.6,
+            6.7,
+            6.9,
+            6.3,
+            7.8,
+            8.2,
+            6.7,
+            6.9,
+            9.9,
+            6.3,
+            8.0,
+            8.6,
+            9.5,
+            6.0,
+            6.1,
+        ]
+
     if remote_host is None:
         pass
     else:
