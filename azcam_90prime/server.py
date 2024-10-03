@@ -89,7 +89,7 @@ def setup():
         "90prime with overscan rows": "overscan",
         "90prime FAST mode (with overscan rows)": "fast",
         "CSS mode": "css",
-        "Archon contorller with new mosaic": "archon",
+        # "Archon controller with new mosaic": "archon",
     }
     if option == "menu":
         print("90Prime Startup Menu\n")
@@ -342,7 +342,8 @@ def setup():
     if ARCHON:
         instrument = PrimeFocusInstrumentUpgrade()
     else:
-        instrument = PrimeFocusInstrument()
+        instrument = PrimeFocusInstrumentUpgrade()
+        # instrument = PrimeFocusInstrument()
 
     if remote_host is not None:
         instrument.host = remote_host
