@@ -73,7 +73,8 @@ def setup():
         remote_host = sys.argv[i + 1]
     except ValueError:
         remote_host = None
-        # remote_host = "10.30.1.7"
+        # remote_host = "10.30.1.7"  # bonsai NEW
+        # remote_host = "10.30.1.2"  # bart OLD
 
     # define folders for system
     azcam.db.systemname = "90prime"
@@ -210,6 +211,8 @@ def setup():
     azcam.log(f"90prime mode: {option}")
 
     # controller
+    DETNAME = "90prime"
+    DEWNAME = "90prime"
     if ARCHON:
         from azcam.tools.archon.controller_archon import ControllerArchon
         from azcam.tools.archon.exposure_archon import ExposureArchon
@@ -221,7 +224,8 @@ def setup():
         controller.reset_flag = 1  # 0 for soft reset, 1 to upload code
         controller.verbosity = 1
         azcam.db.verbosity = 1
-
+        DETNAME = "90prime2"
+        DEWNAME = "90prime2"
     else:
         from azcam.tools.arc.controller_arc import ControllerArc
         from azcam.tools.arc.exposure_arc import ExposureArc
@@ -342,12 +346,11 @@ def setup():
     if ARCHON:
         instrument = PrimeFocusInstrumentUpgrade()
     else:
-        instrument = PrimeFocusInstrumentUpgrade()
-        # instrument = PrimeFocusInstrument()
+        instrument = PrimeFocusInstrument()
 
     if remote_host is not None:
         instrument.host = remote_host
-    if 0:
+    if 1:
         instrument.initialize()
 
     # telescope
@@ -361,14 +364,16 @@ def setup():
 
     # system header template
     system = System("90prime", template)
-    system.set_keyword("DETNAME", "90prime2", "Detector name")
-    system.set_keyword("DEWAR", "90prime2", "Dewar name")
+    system.set_keyword("DETNAME", DETNAME, "Detector name")
+    system.set_keyword("DEWAR", DEWNAME, "Dewar name")
 
     # detector
     if "90primeone" in option:
         from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
         exposure.set_detpars(detector_bok90prime_one)
+        DETNAME = "90primeOne"
+
     elif "archon" in option:
         from azcam_90prime.detector_bok90prime import detector_bok90prime_archon
 
