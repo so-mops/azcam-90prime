@@ -339,8 +339,11 @@ def setup():
         exposure.sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
     # instrument
-    # instrument = PrimeFocusInstrument()
-    instrument = PrimeFocusInstrumentUpgrade()
+    if ARCHON:
+        instrument = PrimeFocusInstrumentUpgrade()
+    else:
+        instrument = PrimeFocusInstrument()
+
     if remote_host is not None:
         instrument.host = remote_host
     if 0:
