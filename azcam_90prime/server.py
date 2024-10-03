@@ -328,6 +328,7 @@ def setup():
             9.5,
             6.0,
             6.1,
+            6.8,
         ]
 
     if remote_host is None:
