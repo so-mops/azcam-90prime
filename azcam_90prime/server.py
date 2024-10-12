@@ -397,10 +397,11 @@ def setup():
 
         css = CSS()
         azcam.db.tools["css"] = css
-        if remote_host is None:
-            exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
-        else:
-            exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
+        exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+        # if remote_host is None:
+        #     exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+        # else:
+        #     exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
         exposure.folder = "/home/css"
 
     # WCS
