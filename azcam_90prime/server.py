@@ -16,7 +16,7 @@ from azcam.cmdserver import CommandServer
 from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
-from azcam.web.webserver_dash import WebServer
+from azcam.web.webserver_main import WebServer
 
 from azcam_90prime.telescope_bok import BokTCS
 from azcam_90prime.instrument_pf import PrimeFocusInstrument
@@ -397,11 +397,10 @@ def setup():
 
         css = CSS()
         azcam.db.tools["css"] = css
-        exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
-        # if remote_host is None:
-        #     exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
-        # else:
-        #     exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
+        if remote_host is None:
+            exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
+        else:
+            exposure.sendimage.set_remote_imageserver(remote_host, 6543, "azcam")
         exposure.folder = "/home/css"
 
     # WCS
