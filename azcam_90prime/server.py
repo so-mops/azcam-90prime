@@ -176,7 +176,7 @@ def setup():
             azcam.db.datafolder, "templates", "fits_template_90prime_css.txt"
         )
         timingfile = os.path.join(
-            azcam.db.systemfolder,
+            azcam.db.datafolder,
             "dspcode",
             "dspcode_90prime",
             "dsptiming_90prime",
