@@ -1,7 +1,7 @@
 """
 Setup method for 90prime azcamconsole.
 Usage example:
-  python -i -m azcam_90prime.console
+  ipython -i -m azcam_90prime.console --profile azcamconsole
 """
 
 import os
@@ -73,7 +73,6 @@ def setup():
         connected = server.connect(port=port)
         if connected:
             break
-
     if connected:
         azcam.log("Connected to azcamserver")
     else:
@@ -87,3 +86,5 @@ def setup():
 # start
 setup()
 from azcam_console.cli import *
+
+del setup
