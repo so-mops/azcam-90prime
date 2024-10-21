@@ -143,7 +143,6 @@ def setup():
             azcam.db.datafolder,
             "dspcode",
             "dspcode_90prime",
-            "dspcode_90prime",
             "dsptiming_fast",
             "90Prime_config1.lod",
         )
@@ -336,10 +335,10 @@ def setup():
         ]
 
     if remote_host is None:
-        pass
+        exposure.send_image = 1
+        exposure.sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
     else:
         exposure.send_image = 1
-        # exposure.sendimage.set_remote_imageserver("10.30.1.2", 6543, "dataserver")
         exposure.sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
     # instrument
@@ -397,6 +396,7 @@ def setup():
 
         css = CSS()
         azcam.db.tools["css"] = css
+        exposure.send_image = 1
         if remote_host is None:
             exposure.sendimage.set_remote_imageserver("10.30.6.2", 6543, "azcam")
         else:
