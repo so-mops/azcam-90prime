@@ -16,7 +16,7 @@ from azcam.cmdserver import CommandServer
 from azcam.header import System
 from azcam.tools.ds9display import Ds9Display
 from azcam.tools.focus import Focus
-from azcam.web.webserver_main import WebServer
+from azcam.web.fastapi_server import WebServer
 
 from azcam_90prime.telescope_bok import BokTCS
 from azcam_90prime.instrument_pf import PrimeFocusInstrument
