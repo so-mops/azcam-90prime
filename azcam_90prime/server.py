@@ -196,7 +196,7 @@ def setup():
             azcam.db.datafolder,
             "dspcode",
             "archon",
-            "90prime_12sep24_final.acf",
+            "90prime_19nov24.acf",
         )
         azcam.db.servermode = "archon"
         cmdport = 2442
@@ -220,7 +220,7 @@ def setup():
         controller.timing_file = timingfile
         controller.camserver.port = 4242
         controller.camserver.host = "10.30.3.6"  # archon at Bok
-        controller.reset_flag = 1  # 0 for soft reset, 1 to upload code
+        controller.reset_flag = 0  # 0 for soft reset, 1 to upload code
         controller.verbosity = 1
         azcam.db.verbosity = 1
         DETNAME = "90prime2"
@@ -278,16 +278,16 @@ def setup():
         # exposure.update_headers_in_background = 1
         exposure.display_image = 0
         exposure.add_extensions = 1
-        exposure.image.focalplane.gains = NUMCHANS * [2.2]
+        exposure.image.focalplane.gains = NUMCHANS * [2.4]
         exposure.image.focalplane.rdnoises = [
-            7.8,
-            7.1,
-            10.7,
-            8.1,
-            6.2,
-            7.1,
             6.6,
-            7.0,
+            6.7,
+            7.9,
+            11.4,
+            6.7,
+            6.7,
+            6.5,
+            6.3,
         ]
 
     else:
@@ -349,7 +349,7 @@ def setup():
 
     if remote_host is not None:
         instrument.host = remote_host
-    if 1:
+    if 0:
         instrument.initialize()
 
     # telescope

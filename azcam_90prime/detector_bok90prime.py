@@ -107,25 +107,15 @@ detector_bok90prime_one = {
 gapX_new = 3.082 / 0.015  # gaps between amplifiers and CCDs (in pixels)
 gapY_new = 2.099 / 0.015
 
-# read all Archon channels and R/L deinterlace.
+# read all Archon channels with no R/L deinterlace (all Left).
 
 detector_bok90prime_archon = {
     "name": "90prime2",
     "description": "90prime mosaic",
     "ref_pixel": [4080.0, 4080.0],
     "format": [4080 * 2, 4, 0, 20, 4080 * 2, 0, 0, 0, 0],
-    "focalplane": [2, 2, 4, 2, [0, 1, 0, 1, 0, 1, 0, 1]],
+    "focalplane": [2, 2, 4, 2, [2, 3, 2, 3, 0, 1, 0, 1]],
     "roi": [1, 4080 * 2, 1, 4080 * 2, 1, 1],
-    "amp_pixel_position": [
-        [1, 1],
-        [4080, 1],
-        [4081, 1],
-        [8160, 1],
-        [1, 4081],
-        [4080, 4081],
-        [4081, 4081],
-        [8160, 4081],
-    ],
     "det_gap": [
         [0, 0],
         [0, 0],
@@ -140,10 +130,10 @@ detector_bok90prime_archon = {
     "det_position": [
         [1, 1],
         [1, 1],
-        [2, 1],
-        [2, 1],
         [1, 2],
         [1, 2],
+        [2, 1],
+        [2, 1],
         [2, 2],
         [2, 2],
     ],
