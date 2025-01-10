@@ -10,7 +10,7 @@ import sys
 import azcam
 import azcam.utils
 import azcam.exceptions
-import azcam.server
+from azcam.server import setup_server
 import azcam.shortcuts
 from azcam.cmdserver import CommandServer
 from azcam.header import System
@@ -75,6 +75,8 @@ def setup():
         remote_host = None
         # remote_host = "10.30.1.7"  # bonsai NEW
         # remote_host = "10.30.1.2"  # bart OLD
+
+    setup_server()
 
     # define folders for system
     azcam.db.systemname = "90prime"
@@ -201,6 +203,8 @@ def setup():
         azcam.db.servermode = "archon"
         cmdport = 2442
         NUMCHANS = 8
+        if remote_host is None:
+            remote_host = "10.30.1.7"
     else:
         raise azcam.exceptions.AzcamError("bad server configuration")
 
