@@ -353,8 +353,12 @@ def setup():
 
     if remote_host is not None:
         instrument.host = remote_host
+
     if 1:
-        instrument.initialize()
+        try:
+            instrument.initialize()
+        except Exception:
+            azcam.log("Could not initialize 90prime instrument!")
 
     # telescope
     telescope = BokTCS()
