@@ -201,7 +201,7 @@ def setup():
             "90prime_19nov24.acf",
         )
         azcam.db.servermode = "archon"
-        cmdport = 2442
+        cmdport = 2402
         NUMCHANS = 8
         if remote_host is None:
             remote_host = "10.30.1.7"
