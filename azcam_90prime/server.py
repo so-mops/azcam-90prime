@@ -353,7 +353,7 @@ def setup():
 
     if remote_host is not None:
         instrument.host = remote_host
-    if 0:
+    if 1:
         instrument.initialize()
 
     # telescope
