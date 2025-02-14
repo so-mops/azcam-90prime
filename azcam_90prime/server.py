@@ -358,10 +358,14 @@ def setup():
         try:
             instrument.initialize()
         except Exception:
-            azcam.log("Could not initialize 90prime instrument!")
+            azcam.log("Could not initialize 90prime instrument")
 
     # telescope
     telescope = BokTCS()
+    try:
+        telescope.initialize()
+    except Exception:
+        azcam.log("Could not initialize Bok testescope")
 
     # focus
     focus = Focus()
