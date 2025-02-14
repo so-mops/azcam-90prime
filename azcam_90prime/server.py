@@ -434,7 +434,8 @@ def setup():
 
     # web server
     webserver = WebServer()
-    webserver.logcommands = 0
+    webserver.port = cmdport + 1
+    webserver.index = os.path.join(azcam.db.systemfolder, "index_90prime.html")
     webserver.start()
 
     # azcammonitor
