@@ -293,6 +293,7 @@ def setup():
             6.5,
             6.3,
         ]
+        exposure.shutter_delay = 250
 
     else:
         exposure = ExposureArc()
