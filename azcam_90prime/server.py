@@ -92,7 +92,7 @@ def setup():
         "90prime with overscan rows": "overscan",
         "90prime FAST mode (with overscan rows)": "fast",
         "CSS mode": "css",
-        "Archon controller with new mosaic": "archon",
+        "New 90Prime (Archon)": "archon",
     }
     if option == "menu":
         print("90Prime Startup Menu\n")
