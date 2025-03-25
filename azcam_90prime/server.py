@@ -92,7 +92,7 @@ def setup():
         "90prime with overscan rows": "overscan",
         "90prime FAST mode (with overscan rows)": "fast",
         "CSS mode": "css",
-        "Archon controller with new mosaic": "archon",
+        "New 90Prime (Archon)": "archon",
     }
     if option == "menu":
         print("90Prime Startup Menu\n")
@@ -198,7 +198,7 @@ def setup():
             azcam.db.datafolder,
             "dspcode",
             "archon",
-            "90prime_14feb25.acf",
+            "90prime_working.acf",
         )
         azcam.db.servermode = "archon"
         cmdport = 2402
