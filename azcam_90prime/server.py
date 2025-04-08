@@ -52,7 +52,11 @@ def setup():
         option = "css"
     except ValueError:
         pass
-
+    try:
+        i = sys.argv.index("-cssarchon")
+        option = "cssarchon"
+    except ValueError:
+        pass
     try:
         i = sys.argv.index("-archon")
         option = "archon"
@@ -92,6 +96,7 @@ def setup():
         "90prime with overscan rows": "overscan",
         "90prime FAST mode (with overscan rows)": "fast",
         "CSS mode": "css",
+        "CSS Archon": "cssarchon",
         "New 90Prime (Archon)": "archon",
     }
     if option == "menu":
@@ -100,6 +105,7 @@ def setup():
 
     CSS = 0
     ARCHON = 0
+    CSSARCHON = 0
     if "90primeone" in option:
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini"
@@ -205,6 +211,24 @@ def setup():
         NUMCHANS = 8
         if remote_host is None:
             remote_host = "10.30.1.7"
+
+    elif "cssarchon" in option:
+        CSSARCHON = 1
+        parfile = os.path.join(
+            azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
+        )
+        template = os.path.join(
+            azcam.db.datafolder, "templates", "fits_template_90Prime_css.txt"
+        )
+        timingfile = os.path.join(
+            azcam.db.datafolder,
+            "dspcode",
+            "archon",
+            "90prime_14feb25.acf",
+        )
+        azcam.db.servermode = "cssarchon"
+        cmdport = 2422
+        NUMCHANS = 8
     else:
         raise azcam.exceptions.AzcamError("bad server configuration")
 
@@ -216,7 +240,7 @@ def setup():
     # controller
     DETNAME = "90prime"
     DEWNAME = "90prime"
-    if ARCHON:
+    if ARCHON or CSSARCHON:
         from azcam.tools.archon.controller_archon import ControllerArchon
         from azcam.tools.archon.exposure_archon import ExposureArchon
 
@@ -247,7 +271,7 @@ def setup():
         controller.timing_file = timingfile
 
     # temperature controller
-    if ARCHON:
+    if ARCHON or CSSARCHON:
         from azcam.tools.archon.tempcon_archon import TempConArchon
 
         tempcon = TempConArchon(description="90prime Archon")
@@ -275,7 +299,7 @@ def setup():
         ]
 
     # exposure
-    if ARCHON:
+    if ARCHON or CSSARCHON:
         exposure = ExposureArchon()
         exposure.filetype = exposure.filetypes["MEF"]
         exposure.image.filetype = exposure.filetypes["MEF"]
@@ -347,7 +371,7 @@ def setup():
         exposure.sendimage.set_remote_imageserver(remote_host, 6543, "dataserver")
 
     # instrument
-    if ARCHON:
+    if ARCHON or CSSARCHON:
         instrument = PrimeFocusInstrumentUpgrade()
     else:
         instrument = PrimeFocusInstrument()
@@ -386,7 +410,7 @@ def setup():
         exposure.set_detpars(detector_bok90prime_one)
         DETNAME = "90primeOne"
 
-    elif "archon" in option:
+    elif "archon" in option or CSSARCHON:
         from azcam_90prime.detector_bok90prime import detector_bok90prime_archon
 
         exposure.set_detpars(detector_bok90prime_archon)
@@ -404,8 +428,11 @@ def setup():
     display.initialize()
 
     # system-specific
-    if CSS:
-        from azcam_90prime.css import CSS
+    if CSS or CSSARCHON:
+        if CSS:
+            from azcam_90prime.css import CSS
+        elif CSSARCHON:
+            from azcam_90prime.css_archon import CSS
 
         css = CSS()
         azcam.db.tools["css"] = css
@@ -443,7 +470,7 @@ def setup():
     azcam.db.monitor.register()
 
     # controller server restart
-    if not ARCHON:
+    if not (ARCHON or CSSARCHON):
         import azcam_90prime.restart_cameraserver
 
     # GUI
