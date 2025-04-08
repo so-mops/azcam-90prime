@@ -114,7 +114,8 @@ detector_bok90prime_archon = {
     "description": "90prime mosaic",
     "ref_pixel": [4080.0, 4080.0],
     "format": [4080 * 2, 4, 0, 20, 4080 * 2, 0, 0, 0, 0],
-    "focalplane": [2, 2, 4, 2, [2, 3, 2, 3, 0, 1, 0, 1]],
+    #"focalplane": [2, 2, 4, 2, [2, 3, 2, 3, 0, 1, 0, 1]],  # old
+    "focalplane": [2, 2, 4, 2, [2, 3, 2, 3, 0, 1, 2, 3]],
     "roi": [1, 4080 * 2, 1, 4080 * 2, 1, 1],
     "det_gap": [
         [0, 0],
