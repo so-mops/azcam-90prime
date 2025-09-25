@@ -341,6 +341,18 @@ class PrimeFocusInstrumentUpgrade(Instrument):
                 except:
                     self.header.set_keyword(key[:8], value, key, "string")
 
+            # Added September 25th
+            # dict1 = self.telclient.parse_json(_key="tube")
+            dict1 = self.telclient.jdata["weather"]["tube"]["data"]["tube"]
+            for key in dict1:
+                if key == "error":
+                    continue
+                value = dict1[key]
+                try:
+                    self.header.set_keyword(key[:8], value, key, "float")
+                except:
+                    self.header.set_keyword(key[:8], value, key, "string")
+
         return header
 
     # *** GUIDER ***
