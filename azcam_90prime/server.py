@@ -198,7 +198,7 @@ def setup():
             azcam.db.datafolder,
             "dspcode",
             "archon",
-            "90prime_working.acf",
+            "acf_fix.acf",
         )
         azcam.db.servermode = "archon"
         cmdport = 2402
