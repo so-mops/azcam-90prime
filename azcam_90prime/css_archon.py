@@ -81,7 +81,9 @@ class CSS(object):
         Set binning.
         """
 
-        return "OK"
+        azcam.db.tools["exposure"].set_roi(-1, -1, -1, -1, colbin, rowbin)
+
+        return
 
     def geterror(self):
         """
@@ -93,6 +95,8 @@ class CSS(object):
     def flush(self, cycles=1):
         """
         Flush sensor "cycles" times.
+        Archon controller is always flushing in hardware so the command is not needed.
+
         """
 
         return "OK"
