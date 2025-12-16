@@ -103,10 +103,13 @@ def setup():
         print("90Prime Startup Menu\n")
         option = azcam.utils.show_menu(menu_options)
 
+    # flags
     CSS = 0
     ARCHON = 0
     CSSARCHON = 0
-    if "90primeone" in option:
+
+    # mode selection
+    if option == "90primeone":
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_one.ini"
         )
@@ -123,7 +126,8 @@ def setup():
         azcam.db.servermode = "90primeone"
         cmdport = 2432
         NUMCHANS = 4
-    elif "normal" in option:
+
+    elif option == "normal":
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_normal.ini"
         )
@@ -140,7 +144,8 @@ def setup():
         azcam.db.servermode = "normal"
         cmdport = 2402
         NUMCHANS = 16
-    elif "fast" in option:
+
+    elif option == "fast":
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_fast.ini"
         )
@@ -157,7 +162,8 @@ def setup():
         azcam.db.servermode = "fast"
         cmdport = 2402
         NUMCHANS = 16
-    elif "overscan" in option:
+
+    elif option == "overscan":
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_overscan.ini"
         )
@@ -174,7 +180,8 @@ def setup():
         azcam.db.servermode = "overscan"
         cmdport = 2402
         NUMCHANS = 16
-    elif "css" in option:
+
+    elif option == "css":
         CSS = 1
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
@@ -192,7 +199,8 @@ def setup():
         azcam.db.servermode = "CSS"
         cmdport = 2422
         NUMCHANS = 16
-    elif "archon" in option:
+
+    elif option == "archon":
         ARCHON = 1
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_archon.ini"
@@ -212,23 +220,24 @@ def setup():
         if remote_host is None:
             remote_host = "10.30.1.7"
 
-    elif "cssarchon" in option:
+    elif option == "cssarchon":
         CSSARCHON = 1
         parfile = os.path.join(
             azcam.db.datafolder, "parameters", "parameters_server_90prime_css.ini"
         )
         template = os.path.join(
-            azcam.db.datafolder, "templates", "fits_template_90Prime_css.txt"
+            azcam.db.datafolder, "templates", "fits_template_90prime_css.txt"
         )
         timingfile = os.path.join(
             azcam.db.datafolder,
             "dspcode",
             "archon",
-            "90prime_14feb25.acf",
+            "90prime_working.acf",
         )
         azcam.db.servermode = "cssarchon"
         cmdport = 2422
         NUMCHANS = 8
+
     else:
         raise azcam.exceptions.AzcamError("bad server configuration")
 
@@ -403,14 +412,14 @@ def setup():
     system.set_keyword("DETNAME", DETNAME, "Detector name")
     system.set_keyword("DEWAR", DEWNAME, "Dewar name")
 
-    # detector
-    if "90primeone" in option:
+    # detector (use exact checks)
+    if option == "90primeone":
         from azcam_90prime.detector_bok90prime import detector_bok90prime_one
 
         exposure.set_detpars(detector_bok90prime_one)
         DETNAME = "90primeOne"
 
-    elif "archon" in option or CSSARCHON:
+    elif (option == "archon") or CSSARCHON:
         from azcam_90prime.detector_bok90prime import detector_bok90prime_archon
 
         exposure.set_detpars(detector_bok90prime_archon)
@@ -419,7 +428,7 @@ def setup():
     else:
         from azcam_90prime.detector_bok90prime import detector_bok90prime
 
-        if "overscan" in option:
+        if option == "overscan":
             detector_bok90prime["format"] = [4032 * 2, 6, 0, 20, 4096 * 2, 0, 0, 20, 0]
         exposure.set_detpars(detector_bok90prime)
 
