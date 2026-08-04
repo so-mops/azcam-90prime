@@ -374,12 +374,16 @@ class NgClient(object):
     # method: connect()
     # -
     def connect(self) -> None:
-        """connects to host:port via socket"""
+        """Open a TCP connection to the NG server."""
+
+        # Do not leave an older socket open. Each NG transaction is one-shot.
+        if self.__sock is not None:
+            self.disconnect()
 
         try:
-            self.__sock = None
-            self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.__sock.connect((socket.gethostbyname(self.__host), self.__port))
+            self.__sock = socket.create_connection(
+                (self.__host, self.__port), timeout=self.__timeout
+            )
             self.__sock.settimeout(self.__timeout)
         except Exception as _:
             self.__error = f"{_}"
@@ -391,22 +395,24 @@ class NgClient(object):
     # method: disconnect()
     # -
     def disconnect(self) -> None:
-        """disconnects socket"""
+        """Close the current socket, if one is open."""
 
-        if self.__sock is not None and hasattr(self.__sock, "close"):
-            try:
-                self.__sock.close()
-            except Exception as _:
-                self.__error = f"{_}"
-            else:
-                self.__error = f""
+        _sock = self.__sock
         self.__sock = None
+
+        if _sock is not None and hasattr(_sock, "close"):
+            try:
+                _sock.close()
+            except Exception as _:
+                # Preserve an earlier send/receive error when one already exists.
+                if self.__error == "":
+                    self.__error = f"{_}"
 
     # +
     # method: converse()
     # -
     def converse(self, talk: str = f"") -> str:
-        """converses across socket"""
+        """Send one request over one TCP connection and receive one response."""
 
         # send and recv data
         if talk.strip() == "":
@@ -419,26 +425,75 @@ class NgClient(object):
         # change command if simulate is enabled
         if self.__simulate:
             _cmd = talk.split()
+            if len(_cmd) < 3:
+                self.__error = "invalid command format"
+                return f""
             _cmd[2] = f"SIMULATE"
             self.__command = f"{' '.join(_cmd)}\r\n"
         else:
             self.__command = f"{talk}\r\n"
 
-        # converse
+        # one accepted socket handles exactly one request/response transaction
         if self.__verbose:
-            pdh(msg=f"\tSend> '{self.__command[:-2]}'", color="magenta", height=1)
+            pdh(
+                msg=f"\tSend> '{self.__command.rstrip()}'",
+                color="magenta",
+                height=1,
+            )
+
         try:
-            self.__sock.send(self.__command.encode())
-            self.__answer = self.__sock.recv(BOK_NG_STRING).decode()
+            self.connect()
+            if self.__sock is None:
+                return f""
+
+            # sendall() either sends the entire command or raises an exception.
+            self.__sock.sendall(self.__command.encode("utf-8"))
+
+            # TCP is a byte stream, so gather chunks until the newline-delimited
+            # response is complete or the one-shot server closes the connection.
+            _response = bytearray()
+            while True:
+                _chunk = self.__sock.recv(BOK_NG_STRING)
+                if not _chunk:
+                    break
+
+                _response.extend(_chunk)
+
+                if b"\n" in _response:
+                    break
+
+                if len(_response) >= BOK_NG_STRING:
+                    raise RuntimeError(
+                        f"response exceeds maximum size of {BOK_NG_STRING} bytes"
+                    )
+
+            if not _response:
+                raise ConnectionError("server closed connection without a response")
+
+            # The protocol is one newline-terminated response per connection.
+            _response_bytes = bytes(_response)
+            _newline = _response_bytes.find(b"\n")
+            if _newline >= 0:
+                _response_bytes = _response_bytes[: _newline + 1]
+
+            self.__answer = _response_bytes.decode("utf-8")
+            self.__error = f""
+
         except Exception as _:
             self.__answer = f""
             self.__error = f"{_}"
-        else:
-            self.__error = f""
+
+        finally:
+            # The client side is also one-shot: every transaction closes its socket.
+            self.disconnect()
 
         # return
         if self.__verbose:
-            pdh(msg=f"\tRecv> '{self.__answer[:-1]}'", color="magenta", height=1)
+            pdh(
+                msg=f"\tRecv> '{self.__answer.rstrip()}'",
+                color="magenta",
+                height=1,
+            )
         return self.__answer
 
     # +
@@ -980,7 +1035,7 @@ def ngclient_check(
     _client = None
     try:
 
-        # instantiate client and connect to server
+        # instantiate client; converse() opens a new socket for each request
         pdh(
             msg=f"Executing> NgClient(host='{_host}', port={_port}, timeout={_timeout}, simulate={_simulate}, verbose={_verbose})",
             color="green",
@@ -989,12 +1044,7 @@ def ngclient_check(
         _client = NgClient(
             host=_host, port=_port, timeout=_timeout, simulate=_simulate, verbose=_verbose
         )
-        _client.connect()
-        if _client.sock is not None:
-            pdh(msg=f"\tInstantiation OK, sock={_client.sock}", color="green", height=1)
-        else:
-            pdh(msg=f"\tInstantiation FAILED, error={_client.error}", color="red", height=1)
-            return
+        pdh(msg=f"\tInstantiation OK", color="green", height=1)
 
         # +
         # request(s)

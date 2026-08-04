@@ -39,7 +39,6 @@ class PrimeFocusInstrumentUpgrade(Instrument):
             return
 
         self.iserver = NgClient(self.host, self.port, simulate=self.simulate)
-        self.iserver.connect()
 
         # self.iserver.command_ifilter_init()
 
